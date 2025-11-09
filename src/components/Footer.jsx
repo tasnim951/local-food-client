@@ -1,5 +1,5 @@
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
-import { SiX } from "react-icons/si"; // X icon for Twitter replacement
+import { SiX } from "react-icons/si"; 
 import logo from "../assets/logo.png";
 
 export default function Footer() {
@@ -19,7 +19,7 @@ export default function Footer() {
         color: "#2d6a4f",
       }}
     >
-      {/* Left section: Logo + About */}
+     
       <div style={{ flex: "1 1 300px", marginBottom: "25px" }}>
         <div style={{ display: "flex", alignItems: "center", gap: "15px", marginBottom: "20px" }}>
           <img
