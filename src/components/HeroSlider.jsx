@@ -46,12 +46,12 @@ export default function HeroSlider() {
             flexDirection: "column",
             justifyContent: "center",
             paddingLeft: "50px",
-            backgroundColor: "rgba(0,0,0,0.4)", // dark overlay for text readability
+            backgroundColor: "rgba(0,0,0,0.4)", 
             backgroundBlendMode: "darken",
-            pointerEvents: index === current ? "auto" : "none", // prevent interaction with hidden slides
+            pointerEvents: index === current ? "auto" : "none", 
           }}
         >
-          <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: "3rem", marginBottom: "15px" }}>
+          <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: "3rem", marginBottom: "5px" }}>
             {img.title}
           </h1>
           <p
@@ -59,14 +59,14 @@ export default function HeroSlider() {
               fontFamily: "'Poppins', sans-serif",
               fontSize: "1.25rem",
               maxWidth: "600px",
-              marginBottom: "20px",
+              marginBottom: "15px",
             }}
           >
             {img.desc}
           </p>
           <button
             style={{
-              padding: "12px 25px",
+              padding: "10px 16px",
               fontSize: "1.1rem",
               backgroundColor: "#ffb743ff",
               border: "none",
