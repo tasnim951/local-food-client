@@ -1,5 +1,5 @@
 import { FaSearch } from "react-icons/fa";
-import { Link } from "react-router"; // react-router only, per your teacher
+import { Link } from "react-router"; 
 import logo from "../assets/logo.png";
 
 export default function Navbar() {

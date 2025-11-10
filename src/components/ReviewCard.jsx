@@ -1,0 +1,225 @@
+import React, { useEffect, useState } from 'react';
+import Modal from './Modal'; // Adjust the path if needed
+
+function ReviewCard() {
+  const [reviews, setReviews] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Modal state
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalData, setModalData] = useState(null);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/reviews')  // Replace with your actual backend URL
+      .then(res => res.json())
+      .then(data => {
+        setReviews(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('Failed to fetch reviews:', err);
+        setLoading(false);
+      });
+  }, []);
+
+  const openModal = async (foodName) => {
+    try {
+      const res = await fetch(`http://localhost:5000/details/${encodeURIComponent(foodName)}`);
+      if (!res.ok) throw new Error('Details not found');
+      const data = await res.json();
+      setModalData(data);
+      setModalOpen(true);
+    } catch (err) {
+      alert('Failed to fetch details');
+      console.error(err);
+    }
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+    setModalData(null);
+  };
+
+  if (loading) {
+    return <p style={{ textAlign: 'center', marginTop: '50px' }}>Loading reviews...</p>;
+  }
+
+  return (
+    <section
+      style={{
+        backgroundColor: '#e6f0e9',
+        padding: '50px 20px',
+        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+        color: '#2d6a4f',
+        minHeight: '100vh',
+      }}
+    >
+      {/* Title */}
+      <h2
+        style={{
+          fontSize: "2.5rem",
+          fontWeight: "700",
+          marginBottom: "40px",
+          fontFamily: "'Poppins', sans-serif",
+          color: "#2d6a4f",
+          position: "relative",
+          display: "inline-block",
+          paddingLeft: "50px",
+          userSelect: "none",
+        }}
+      >
+        FEATURED REVIEWS
+        <span
+          style={{
+            position: "absolute",
+            left: "20px",
+            top: "50%",
+            width: "12px",
+            height: "12px",
+            borderRadius: "50%",
+            background: "#2d6a4f",
+            transform: "translateY(-50%)",
+            boxShadow: "0 0 6px #95d5b2",
+          }}
+        ></span>
+        <span
+          style={{
+            position: "absolute",
+            left: "-15px",
+            top: "50%",
+            width: "30px",
+            height: "3px",
+            background: "#2d6a4f",
+            borderRadius: "2px",
+            transform: "translateY(-50%)",
+            boxShadow: "0 0 8px #95d5b2",
+          }}
+        ></span>
+      </h2>
+
+      {/* Cards container */}
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: '30px',
+          maxWidth: '1100px',
+          margin: '0 auto 50px',
+        }}
+      >
+        {reviews.map((review, idx) => (
+          <div
+            key={idx}
+            style={{
+              backgroundColor: 'white',
+              borderRadius: '15px',
+              boxShadow: '0 8px 16px rgba(45, 106, 79, 0.2)',
+              width: 'calc(33.333% - 20px)',
+              minWidth: '280px',
+              padding: '20px',
+              boxSizing: 'border-box',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              transition: 'transform 0.3s ease',
+              cursor: 'default',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
+            onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
+          >
+            <img
+              src={review.photo}
+              alt={review.foodName}
+              style={{
+                width: '100%',
+                height: '180px',
+                objectFit: 'cover',
+                borderRadius: '12px',
+                marginBottom: '15px',
+              }}
+            />
+            <h3 style={{ margin: '5px 0', color: '#2d6a4f' }}>{review.foodName}</h3>
+            <p style={{ margin: '3px 0', fontWeight: '600', color: '#386641' }}>
+              {review.restaurantName} — {review.location}
+            </p>
+            <p
+              style={{
+                fontStyle: 'italic',
+                color: '#52796f',
+                margin: '3px 0 10px 0',
+                fontSize: '0.9rem',
+              }}
+            >
+              Reviewed by {review.reviewerName}
+            </p>
+            <p
+              style={{
+                fontWeight: 'bold',
+                color: '#1b4332',
+                marginBottom: '15px',
+              }}
+            >
+              Rating: {review.rating}
+            </p>
+
+            <button
+              style={{
+                backgroundColor: '#2d6a4f',
+                color: 'white',
+                border: 'none',
+                padding: '10px 20px',
+                borderRadius: '30px',
+                fontWeight: '600',
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                transition: 'background-color 0.3s ease',
+                userSelect: 'none',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#1b4332')}
+              onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#2d6a4f')}
+              onClick={() => openModal(review.foodName)}
+            >
+              View Details
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* Show All button */}
+      <div style={{ textAlign: 'center' }}>
+        <button
+          style={{
+            backgroundColor: '#386641',
+            color: 'white',
+            border: 'none',
+            padding: '14px 40px',
+            borderRadius: '50px',
+            fontWeight: '700',
+            fontSize: '1.1rem',
+            cursor: 'pointer',
+            boxShadow: '0 4px 8px rgba(56, 102, 65, 0.4)',
+            transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
+            userSelect: 'none',
+          }}
+          onMouseEnter={e => {
+            e.currentTarget.style.backgroundColor = '#2d6a4f';
+            e.currentTarget.style.boxShadow = '0 6px 12px rgba(45, 106, 79, 0.6)';
+          }}
+          onMouseLeave={e => {
+            e.currentTarget.style.backgroundColor = '#386641';
+            e.currentTarget.style.boxShadow = '0 4px 8px rgba(56, 102, 65, 0.4)';
+          }}
+          onClick={() => alert('Show all reviews clicked')}
+        >
+          SHOW ALL
+        </button>
+      </div>
+
+      {/* Modal component */}
+      {modalOpen && <Modal modalData={modalData} closeModal={closeModal} />}
+    </section>
+  );
+}
+
+export default ReviewCard;
