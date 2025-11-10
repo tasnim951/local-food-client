@@ -11,6 +11,7 @@ import MyReviews from "./pages/MyReviews";
 import AllReviews from "./pages/AllReviews";
 import MyFavorites from "./pages/MyFavorites";
 import NotFound from "./pages/NotFound";
+import ReviewCard from "./components/ReviewCard";
 
 function Layout() {
   return (
@@ -48,8 +49,9 @@ const router = createBrowserRouter([
       { path: "register", element: <Register /> },
       { path: "add-review", element: <AddReview /> },
       { path: "my-reviews", element: <MyReviews /> },
-      { path: "all-reviews", element: <AllReviews /> },
+      { path: "allreviews", element: <AllReviews /> },
       { path: "my-favorites", element: <MyFavorites /> },
+      {path : "review-card", element: <ReviewCard/>},
       { path: "*", element: <NotFound /> },
     ],
   },

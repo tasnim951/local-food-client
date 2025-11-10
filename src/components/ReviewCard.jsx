@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import Modal from './Modal'; // Adjust the path if needed
 
 function ReviewCard() {
@@ -8,6 +9,8 @@ function ReviewCard() {
   // Modal state
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch('http://localhost:5000/reviews')  // Replace with your actual backend URL
@@ -52,6 +55,8 @@ function ReviewCard() {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         color: '#2d6a4f',
         minHeight: '100vh',
+        marginTop: "60px",
+        borderRadius: "8px",
       }}
     >
       {/* Title */}
@@ -60,7 +65,7 @@ function ReviewCard() {
           fontSize: "2.5rem",
           fontWeight: "700",
           marginBottom: "40px",
-          fontFamily: "'Poppins', sans-serif",
+          fontFamily: "'Poppins'",
           color: "#2d6a4f",
           position: "relative",
           display: "inline-block",
@@ -210,7 +215,7 @@ function ReviewCard() {
             e.currentTarget.style.backgroundColor = '#386641';
             e.currentTarget.style.boxShadow = '0 4px 8px rgba(56, 102, 65, 0.4)';
           }}
-          onClick={() => alert('Show all reviews clicked')}
+          onClick={() => navigate('/allreviews')}
         >
           SHOW ALL
         </button>
