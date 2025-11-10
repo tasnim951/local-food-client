@@ -31,7 +31,7 @@ function AllReviews() {
         minHeight: '100vh',
       }}
     >
-      <h2 style={{ textAlign: 'center', marginBottom: '50px', fontWeight: '700', fontSize: '2.8rem' }}>
+      <h2 style={{ textAlign: 'center', marginBottom: '50px', fontWeight: '700', fontSize: '2.8rem', fontFamily: "'poppins'", color: '#365849ff' }}>
         All Reviews
       </h2>
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
