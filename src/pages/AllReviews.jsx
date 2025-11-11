@@ -5,7 +5,7 @@ function AllReviews() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('http://localhost:5000/allreviews')  // Your backend endpoint
+    fetch('http://localhost:5000/allreviews')  
       .then(res => res.json())
       .then(data => {
         setReviews(data);

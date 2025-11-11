@@ -2,6 +2,7 @@ import React from "react";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+ import { ToastContainer } from 'react-toastify';
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -56,6 +57,29 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+    //  toastify 
+
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
+      {/* Toast container for toasts */}
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+      />
+    
+  
+
+
 
 export default function App() {
   return <RouterProvider router={router} />;
