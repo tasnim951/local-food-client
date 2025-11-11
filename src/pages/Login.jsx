@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { auth } from '../firebase/firebase.config';
-
+import { Link } from 'react-router';
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -136,6 +136,13 @@ function Login() {
         >
           Continue with Google
         </button>
+
+        <p style={{ textAlign: 'center', marginTop: '20px', color: '#386641' }}>
+          New to our website?{' '}
+          <Link to="/register" style={{ color: '#2d6a4f', fontWeight: '700' }}>
+            Register here
+          </Link>
+        </p>
       </form>
     </div>
   );
@@ -164,4 +171,3 @@ const buttonStyle = {
 };
 
 export default Login;
-

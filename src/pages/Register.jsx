@@ -3,7 +3,6 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvi
 import { toast } from 'react-toastify';
 import { auth } from '../firebase/firebase.config';
 
-
 const googleProvider = new GoogleAuthProvider();
 
 function Register() {
@@ -16,12 +15,10 @@ function Register() {
   });
   const [loading, setLoading] = useState(false);
 
-  // Handle input change
   const handleChange = e => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Password validation helper
   const validatePassword = password => {
     const hasUpper = /[A-Z]/.test(password);
     const hasLower = /[a-z]/.test(password);
@@ -29,24 +26,41 @@ function Register() {
     return hasUpper && hasLower && hasLength;
   };
 
-  // Handle form submit
   const handleSubmit = async e => {
     e.preventDefault();
 
     const { name, email, photoURL, password, confirmPassword } = formData;
 
     if (!name || !email || !password || !confirmPassword) {
-      toast.error('Please fill all required fields');
+      toast.error('Please fill all required fields', {
+        autoClose: 5000,
+        pauseOnHover: true,
+        draggable: true,
+        position: "top-center",
+        theme: "colored",
+      });
       return;
     }
 
     if (!validatePassword(password)) {
-      toast.error('Password must have uppercase, lowercase & minimum 6 characters');
+      toast.error('Password must have uppercase, lowercase & minimum 6 characters', {
+        autoClose: 5000,
+        pauseOnHover: true,
+        draggable: true,
+        position: "top-center",
+        theme: "colored",
+      });
       return;
     }
 
     if (password !== confirmPassword) {
-      toast.error('Passwords do not match');
+      toast.error('Passwords do not match', {
+        autoClose: 5000,
+        pauseOnHover: true,
+        draggable: true,
+        position: "top-center",
+        theme: "colored",
+      });
       return;
     }
 
@@ -55,158 +69,191 @@ function Register() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
 
-      // Update display name and photoURL
       await updateProfile(userCredential.user, {
         displayName: name,
         photoURL: photoURL || null,
       });
 
-      toast.success('Registration successful! Redirecting...');
-      // Redirect after 1.5s, e.g. to homepage
+      toast.success('Registration successful! Redirecting...', {
+        autoClose: 4000,
+        pauseOnHover: true,
+        draggable: true,
+        position: "top-center",
+        theme: "colored",
+       
+      });
+
       setTimeout(() => {
         window.location.href = '/';
       }, 1500);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        autoClose: 5000,
+        pauseOnHover: true,
+        draggable: true,
+        position: "top-center",
+        theme: "colored",
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  // Google Sign-In
   const handleGoogleSignIn = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
-      toast.success('Login successful! Redirecting...');
+      toast.success('Login successful! Redirecting...', {
+        autoClose: 4000,
+        pauseOnHover: true,
+        draggable: true,
+        position: "top-center",
+        theme: "colored",
+      });
       setTimeout(() => {
         window.location.href = '/';
       }, 1500);
     } catch (error) {
-      toast.error(error.message);
+      toast.error(error.message, {
+        autoClose: 5000,
+        pauseOnHover: true,
+        draggable: true,
+        position: "top-center",
+        theme: "colored",
+       
+      });
     }
   };
 
   return (
-    <div
-      style={{
-        minHeight: '80vh',   
-        fontFamily: "'Poppins', sans-serif",
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: '40px 20px',
-      }}
-    >
-      <form
-        onSubmit={handleSubmit}
+    <>
+      <style>{`
+        input::placeholder {
+          color: #a7c5a9;
+          opacity: 1;
+          font-style: italic;
+        }
+      `}</style>
+      <div
         style={{
-          backgroundColor: 'white',
-          padding: '30px',
-          borderRadius: '12px',
-          boxShadow: '0 8px 24px rgba(45, 106, 79, 0.3)',
-          maxWidth: '400px',
-          width: '100%',
-          color: '#2d6a4f',
+          minHeight: '80vh',
+          fontFamily: "'Poppins', sans-serif",
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '40px 20px',
+          backgroundColor: '#e6f0e9',
         }}
       >
-        <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Register</h2>
-
-        <label>Name*</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          required
-          style={inputStyle}
-          placeholder="Your full name"
-        />
-
-        <label>Email*</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-          style={inputStyle}
-          placeholder="Email address"
-        />
-
-        <label>Photo URL (optional)</label>
-        <input
-          type="text"
-          name="photoURL"
-          value={formData.photoURL}
-          onChange={handleChange}
-          style={inputStyle}
-          placeholder="https://example.com/photo.jpg"
-        />
-
-        <label>Password*</label>
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-          style={inputStyle}
-          placeholder="At least 6 chars, uppercase & lowercase"
-        />
-
-        <label>Confirm Password*</label>
-        <input
-          type="password"
-          name="confirmPassword"
-          value={formData.confirmPassword}
-          onChange={handleChange}
-          required
-          style={inputStyle}
-          placeholder="Re-enter your password"
-        />
-
-        <button
-          type="submit"
-          disabled={loading}
+        <form
+          onSubmit={handleSubmit}
           style={{
-            ...buttonStyle,
-            backgroundColor: loading ? '#aacdaa' : '#2d6a4f',
-            cursor: loading ? 'not-allowed' : 'pointer',
-            marginTop: '20px',
+            backgroundColor: 'white',
+            padding: '30px',
+            borderRadius: '12px',
+            boxShadow: '0 8px 24px rgba(45, 106, 79, 0.3)',
+            maxWidth: '400px',
             width: '100%',
+            color: '#2d6a4f',
           }}
         >
-          {loading ? 'Registering...' : 'Register'}
-        </button>
+          <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Register</h2>
 
-        <div
-          style={{
-            textAlign: 'center',
-            margin: '20px 0',
-            fontWeight: '600',
-            color: '#52796f',
-          }}
-        >
-          OR
-        </div>
+          <label>Name*</label>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            style={inputStyle}
+            placeholder="Your full name"
+          />
 
-        <button
-          type="button"
-          onClick={handleGoogleSignIn}
-          style={{
-            ...buttonStyle,
-            backgroundColor: '#4285F4',
-            width: '100%',
-          }}
-        >
-          Continue with Google
-        </button>
-      </form>
-    </div>
+          <label>Email*</label>
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            style={inputStyle}
+            placeholder="Email address"
+          />
+
+          <label>Photo URL (optional)</label>
+          <input
+            type="text"
+            name="photoURL"
+            value={formData.photoURL}
+            onChange={handleChange}
+            style={inputStyle}
+            placeholder="https://example.com/photo.jpg"
+          />
+
+          <label>Password*</label>
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            style={inputStyle}
+            placeholder="At least 6 chars, uppercase & lowercase"
+          />
+
+          <label>Confirm Password*</label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+            style={inputStyle}
+            placeholder="Re-enter your password"
+          />
+
+          <button
+            type="submit"
+            disabled={loading}
+            style={{
+              ...buttonStyle,
+              backgroundColor: loading ? '#aacdaa' : '#2d6a4f',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              marginTop: '20px',
+              width: '100%',
+            }}
+          >
+            {loading ? 'Registering...' : 'Register'}
+          </button>
+
+          <div
+            style={{
+              textAlign: 'center',
+              margin: '20px 0',
+              fontWeight: '600',
+              color: '#52796f',
+            }}
+          >
+            OR
+          </div>
+
+          <button
+            type="button"
+            onClick={handleGoogleSignIn}
+            style={{
+              ...buttonStyle,
+              backgroundColor: '#4285F4',
+              width: '100%',
+            }}
+          >
+            Continue with Google
+          </button>
+        </form>
+      </div>
+    </>
   );
 }
 
-// Shared input styles
 const inputStyle = {
   width: '100%',
   padding: '10px 12px',
@@ -218,7 +265,6 @@ const inputStyle = {
   color: '#2d6a4f',
 };
 
-// Shared button styles
 const buttonStyle = {
   color: 'white',
   padding: '12px',

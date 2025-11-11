@@ -2,7 +2,8 @@ import React from "react";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
- import { ToastContainer } from 'react-toastify';
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -52,35 +53,29 @@ const router = createBrowserRouter([
       { path: "my-reviews", element: <MyReviews /> },
       { path: "allreviews", element: <AllReviews /> },
       { path: "my-favorites", element: <MyFavorites /> },
-      {path : "review-card", element: <ReviewCard/>},
+      { path: "review-card", element: <ReviewCard /> },
       { path: "*", element: <NotFound /> },
     ],
   },
 ]);
-    //  toastify 
 
-import 'react-toastify/dist/ReactToastify.css';
+export default function App() {
+  return (
+    <>
+      <RouterProvider router={router} />
 
-
-
-      {/* Toast container for toasts */}
+      {/* Toast container for notifications */}
       <ToastContainer
-        position="top-right"
-        autoClose={3000}
+        position="top-center"
+        autoClose={4000}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
-        rtl={false}
         pauseOnFocusLoss
         draggable
         pauseOnHover
         theme="colored"
       />
-    
-  
-
-
-
-export default function App() {
-  return <RouterProvider router={router} />;
+    </>
+  );
 }
