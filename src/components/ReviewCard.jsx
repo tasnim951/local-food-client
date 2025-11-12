@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
-import Modal from './Modal'; // Adjust the path if needed
+import Modal from './Modal'; 
 
 function ReviewCard() {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Modal state
+                   
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/reviews')  // Replace with your actual backend URL
+    fetch('http://localhost:5000/reviews')  
       .then(res => res.json())
       .then(data => {
         setReviews(data);
@@ -59,7 +59,7 @@ function ReviewCard() {
         borderRadius: "8px",
       }}
     >
-      {/* Title */}
+     
       <h2
         style={{
           fontSize: "2.5rem",
@@ -87,8 +87,8 @@ function ReviewCard() {
             boxShadow: "0 0 6px #95d5b2",
           }}
         ></span>
-        <span
-          style={{
+             <span
+             style={{
             position: "absolute",
             left: "-15px",
             top: "50%",
@@ -102,31 +102,31 @@ function ReviewCard() {
         ></span>
       </h2>
 
-      {/* Cards container */}
-      <div
-        style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          gap: '30px',
-          maxWidth: '1100px',
-          margin: '0 auto 50px',
+     
+              <div
+             style={{
+           display: 'flex',
+           flexWrap: 'wrap',
+           justifyContent: 'center',
+            gap: '30px',
+           maxWidth: '1100px',
+           margin: '0 auto 50px',
         }}
       >
         {reviews.map((review, idx) => (
           <div
-            key={idx}
+             key={idx}
             style={{
               backgroundColor: 'white',
               borderRadius: '15px',
-              boxShadow: '0 8px 16px rgba(45, 106, 79, 0.2)',
-              width: 'calc(33.333% - 20px)',
-              minWidth: '280px',
-              padding: '20px',
-              boxSizing: 'border-box',
+               boxShadow: '0 8px 16px rgba(45, 106, 79, 0.2)',
+               width: 'calc(33.333% - 20px)',
+               minWidth: '280px',
+               padding: '20px',
+               boxSizing: 'border-box',
               display: 'flex',
               flexDirection: 'column',
-              alignItems: 'center',
+               alignItems: 'center',
               transition: 'transform 0.3s ease',
               cursor: 'default',
             }}
@@ -181,6 +181,7 @@ function ReviewCard() {
                 transition: 'background-color 0.3s ease',
                 userSelect: 'none',
               }}
+            
               onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#1b4332')}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#2d6a4f')}
               onClick={() => openModal(review.foodName)}
@@ -191,7 +192,7 @@ function ReviewCard() {
         ))}
       </div>
 
-      {/* Show All button */}
+    
       <div style={{ textAlign: 'center' }}>
         <button
           style={{
@@ -221,7 +222,6 @@ function ReviewCard() {
         </button>
       </div>
 
-      {/* Modal component */}
       {modalOpen && <Modal modalData={modalData} closeModal={closeModal} />}
     </section>
   );

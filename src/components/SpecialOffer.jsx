@@ -58,7 +58,7 @@ export default function SpecialOffer() {
           ></span>
         </p>
 
-        {/* Main heading */}
+       
         <h2
           style={{
             fontSize: "3.8rem",

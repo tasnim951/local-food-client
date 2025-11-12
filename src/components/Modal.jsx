@@ -36,7 +36,7 @@ export default function Modal({ modalData, closeModal }) {
           userSelect: "none",
         }}
       >
-        {/* Close button */}
+       
         <button
           onClick={closeModal}
           style={{
