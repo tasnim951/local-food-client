@@ -34,7 +34,7 @@ export default function Footer() {
         </p>
       </div>
 
-      {/* Middle section: Quick Links */}
+      
       <div style={{ flex: "1 1 200px", marginBottom: "25px" }}>
         <h4
           style={{
@@ -96,12 +96,12 @@ export default function Footer() {
               >
                 {link}
               </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+              </li>
+               ))}
+             </ul>
+                    </div>
 
-      {/* Right section: Social Media */}
+     
       <div style={{ flex: "1 1 200px", marginBottom: "25px" }}>
         <h4
           style={{

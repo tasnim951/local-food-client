@@ -26,10 +26,10 @@ export default function AuthProvider({ children }) {
   const createUser = async ({ name, email, password, photoURL }) => {
     setLoading(true);
     const res = await createUserWithEmailAndPassword(auth, email, password);
-    // set displayName and photo
+    
     if (name || photoURL) {
       await updateProfile(res.user, { displayName: name || null, photoURL: photoURL || null });
-      // refresh local user
+     
       setUser({ ...res.user, displayName: name, photoURL });
     }
     setLoading(false);
@@ -59,7 +59,7 @@ export default function AuthProvider({ children }) {
     setLoading(false);
   };
 
-  // Subscribe to auth state
+ 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (current) => {
       setUser(current);

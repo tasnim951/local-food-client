@@ -1,18 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import HeroSlider from '../components/HeroSlider';
 import HowItWorksFeatures from '../components/HowItWorksFeatures';
 import SpecialOffer from '../components/SpecialOffer';
 import ReviewCard from '../components/ReviewCard';
-const Home = () => {
-  return (
-    <div style= {{padding:"20px"}}>
+import { AuthContext } from '../contexts/AuthProvider';  
 
-      <HeroSlider/>
-      <ReviewCard/>
-     <HowItWorksFeatures/>
-     <SpecialOffer/>
+const Home = () => {
+  const { user } = useContext(AuthContext);  
+
+  return (
+    <div style={{ padding: "20px" }}>
+      <HeroSlider />
+      <ReviewCard loggedInUserEmail={user?.email} /> 
+      <HowItWorksFeatures />
+      <SpecialOffer />
     </div>
   );
 };
 
-export default Home;
+export default Home;

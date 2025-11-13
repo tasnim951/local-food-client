@@ -2,11 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import Modal from './Modal'; 
 
-function ReviewCard() {
+function ReviewCard({ loggedInUserEmail }) {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
-
-                   
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
 
@@ -16,14 +14,22 @@ function ReviewCard() {
     fetch('http://localhost:5000/reviews')  
       .then(res => res.json())
       .then(data => {
-        setReviews(data);
+        
+        const filtered = loggedInUserEmail
+          ? data.filter(review => review.userEmail !== loggedInUserEmail)
+          : data;
+
+       
+        const limited = filtered.slice(0, 6);
+
+        setReviews(limited);
         setLoading(false);
       })
       .catch(err => {
         console.error('Failed to fetch reviews:', err);
         setLoading(false);
       });
-  }, []);
+  }, [loggedInUserEmail]);
 
   const openModal = async (foodName) => {
     try {
@@ -59,7 +65,6 @@ function ReviewCard() {
         borderRadius: "8px",
       }}
     >
-     
       <h2
         style={{
           fontSize: "2.5rem",
@@ -87,8 +92,8 @@ function ReviewCard() {
             boxShadow: "0 0 6px #95d5b2",
           }}
         ></span>
-             <span
-             style={{
+        <span
+          style={{
             position: "absolute",
             left: "-15px",
             top: "50%",
@@ -102,31 +107,30 @@ function ReviewCard() {
         ></span>
       </h2>
 
-     
-              <div
-             style={{
-           display: 'flex',
-           flexWrap: 'wrap',
-           justifyContent: 'center',
-            gap: '30px',
-           maxWidth: '1100px',
-           margin: '0 auto 50px',
+      <div
+        style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          gap: '30px',
+          maxWidth: '1100px',
+          margin: '0 auto 50px',
         }}
       >
         {reviews.map((review, idx) => (
           <div
-             key={idx}
+            key={idx}
             style={{
               backgroundColor: 'white',
               borderRadius: '15px',
-               boxShadow: '0 8px 16px rgba(45, 106, 79, 0.2)',
-               width: 'calc(33.333% - 20px)',
-               minWidth: '280px',
-               padding: '20px',
-               boxSizing: 'border-box',
+              boxShadow: '0 8px 16px rgba(45, 106, 79, 0.2)',
+              width: 'calc(33.333% - 20px)',
+              minWidth: '280px',
+              padding: '20px',
+              boxSizing: 'border-box',
               display: 'flex',
               flexDirection: 'column',
-               alignItems: 'center',
+              alignItems: 'center',
               transition: 'transform 0.3s ease',
               cursor: 'default',
             }}
@@ -181,7 +185,6 @@ function ReviewCard() {
                 transition: 'background-color 0.3s ease',
                 userSelect: 'none',
               }}
-            
               onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#1b4332')}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#2d6a4f')}
               onClick={() => openModal(review.foodName)}
@@ -192,7 +195,6 @@ function ReviewCard() {
         ))}
       </div>
 
-    
       <div style={{ textAlign: 'center' }}>
         <button
           style={{

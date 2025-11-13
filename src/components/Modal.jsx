@@ -9,7 +9,7 @@ export default function Modal({ modalData, closeModal }) {
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "rgba(45, 106, 79, 0.6)", // greenish overlay
+        backgroundColor: "rgba(45, 106, 79, 0.6)", 
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -60,7 +60,7 @@ export default function Modal({ modalData, closeModal }) {
           ×
         </button>
 
-        {/* Image */}
+       
         <img
           src={modalData.photo}
           alt={modalData.foodName}
@@ -114,7 +114,6 @@ export default function Modal({ modalData, closeModal }) {
           ></span>
         </h2>
 
-        {/* Description */}
         <div
           style={{
             marginBottom: "15px",

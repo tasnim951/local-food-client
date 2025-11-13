@@ -14,7 +14,6 @@ import AllReviews from "./pages/AllReviews";
 import MyFavorites from "./pages/MyFavorites";
 import NotFound from "./pages/NotFound";
 import ReviewCard from "./components/ReviewCard";
-
 import EditReview from "./pages/EditReview"; 
 
 function Layout() {
@@ -57,7 +56,7 @@ const router = createBrowserRouter([
       { path: "my-favorites", element: <MyFavorites /> },
       { path: "review-card", element: <ReviewCard /> },
 
-      { path: "edit/:id", element: <EditReview /> },  // <---- Added edit route here
+      { path: "edit-review/:id", element: <EditReview /> },  
 
       { path: "*", element: <NotFound /> },
     ],

@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../contexts/AuthProvider";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 export default function MyReviews() {
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -20,9 +22,8 @@ export default function MyReviews() {
   const fetchReviews = async () => {
     setLoading(true);
     try {
-      // Use the correct backend route for fetching user reviews
       const res = await fetch(
-        `http://localhost:5000/myreviews/${encodeURIComponent(user.email)}`
+       ` http://localhost:5000/my-reviews/${encodeURIComponent(user.email)}`
       );
       if (!res.ok) throw new Error("Failed to fetch reviews.");
       const data = await res.json();
@@ -47,7 +48,6 @@ export default function MyReviews() {
   const confirmDelete = async () => {
     if (!deleteReviewId) return;
     try {
-      // Make sure you have DELETE route implemented on backend
       const res = await fetch(`http://localhost:5000/reviews/${deleteReviewId}`, {
         method: "DELETE",
       });
@@ -96,21 +96,28 @@ export default function MyReviews() {
               <tr key={review._id}>
                 <td style={tdStyle}>
                   <img
-                    src={review.foodImage || "/placeholder.png"} // fallback image path
+                    src={review.foodImage || "/placeholder.png"}
                     alt={review.foodName || "Food Image"}
-                    style={{ width: "80px", height: "80px", borderRadius: "8px", objectFit: "cover" }}
-                    onError={e => (e.target.src = "/placeholder.png")} // fallback if image url is broken
+                    style={{
+                      width: "80px",
+                      height: "80px",
+                      borderRadius: "8px",
+                      objectFit: "cover",
+                    }}
+                    onError={(e) => (e.target.src = "/placeholder.png")}
                   />
                 </td>
                 <td style={tdStyle}>{review.foodName || "N/A"}</td>
                 <td style={tdStyle}>{review.restaurantName || "N/A"}</td>
                 <td style={tdStyle}>
-                  {review.date ? new Date(review.date).toLocaleDateString() : "N/A"}
+                  {review.reviewDate
+                    ? new Date(review.reviewDate).toLocaleDateString()
+                    : "N/A"}
                 </td>
                 <td style={tdStyle}>
                   <button
                     style={editButtonStyle}
-                    onClick={() => window.location.href = `/edit-review/${review._id}`}
+                    onClick={() => navigate(`/edit-review/${review._id}`)}
                   >
                     Edit
                   </button>
@@ -127,12 +134,17 @@ export default function MyReviews() {
         </table>
       )}
 
-      {/* Delete Confirmation Modal */}
       {deleteModalOpen && (
         <div style={modalOverlayStyle}>
           <div style={modalContentStyle}>
             <p>Are you sure you want to delete this review?</p>
-            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "20px",
+              }}
+            >
               <button onClick={confirmDelete} style={confirmButtonStyle}>
                 Confirm
               </button>
@@ -147,26 +159,15 @@ export default function MyReviews() {
   );
 }
 
-// Styles
 
-const tableStyle = {
-  width: "100%",
-  borderCollapse: "collapse",
-};
-
+const tableStyle = { width: "100%", borderCollapse: "collapse" };
 const thStyle = {
   borderBottom: "2px solid #2d6a4f",
   padding: "10px",
   textAlign: "left",
   color: "#2d6a4f",
 };
-
-const tdStyle = {
-  borderBottom: "1px solid #ccc",
-  padding: "10px",
-  verticalAlign: "middle",
-};
-
+const tdStyle = { borderBottom: "1px solid #ccc", padding: "10px", verticalAlign: "middle" };
 const editButtonStyle = {
   backgroundColor: "#40916c",
   color: "white",
@@ -176,7 +177,6 @@ const editButtonStyle = {
   cursor: "pointer",
   marginRight: "10px",
 };
-
 const deleteButtonStyle = {
   backgroundColor: "#d00000",
   color: "white",
@@ -185,10 +185,10 @@ const deleteButtonStyle = {
   borderRadius: "6px",
   cursor: "pointer",
 };
-
 const modalOverlayStyle = {
   position: "fixed",
-  top: 0, left: 0,
+  top: 0,
+  left: 0,
   width: "100vw",
   height: "100vh",
   backgroundColor: "rgba(0,0,0,0.4)",
@@ -197,7 +197,6 @@ const modalOverlayStyle = {
   alignItems: "center",
   zIndex: 999,
 };
-
 const modalContentStyle = {
   backgroundColor: "white",
   padding: "20px",
@@ -207,7 +206,6 @@ const modalContentStyle = {
   boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
   textAlign: "center",
 };
-
 const confirmButtonStyle = {
   backgroundColor: "#d00000",
   color: "white",
@@ -216,7 +214,6 @@ const confirmButtonStyle = {
   borderRadius: "8px",
   cursor: "pointer",
 };
-
 const cancelButtonStyle = {
   backgroundColor: "#aaa",
   color: "white",

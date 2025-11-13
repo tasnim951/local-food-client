@@ -78,6 +78,16 @@ export default function Navbar() {
       >
         <FaSearch style={{ cursor: "pointer", fontSize: "20px" }} />
 
+        {/* HOME LINK ADDED HERE */}
+        <Link
+          to="/"
+          style={linkStyle}
+          onMouseOver={(e) => (e.currentTarget.style.background = "rgba(47,128,79,0.15)")}
+          onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
+        >
+          Home
+        </Link>
+
         {!user && (
           <>
             <Link

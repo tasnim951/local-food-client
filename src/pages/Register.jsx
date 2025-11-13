@@ -254,26 +254,26 @@ function Register() {
   );
 }
 
-const inputStyle = {
-  width: '100%',
-  padding: '10px 12px',
-  margin: '6px 0 14px 0',
-  borderRadius: '6px',
-  border: '1.5px solid #a7c5a9',
-  fontSize: '1rem',
-  outline: 'none',
-  color: '#2d6a4f',
-};
+                const inputStyle = {
+                      width: '100%',
+                      padding: '10px 12px',
+                      margin: '6px 0 14px 0',
+                      borderRadius: '6px',
+                      border: '1.5px solid #a7c5a9',
+                              fontSize: '1rem',
+                               outline: 'none',
+                               color: '#2d6a4f',
+                       };
 
-const buttonStyle = {
-  color: 'white',
-  padding: '12px',
-  fontWeight: '700',
-  fontSize: '1rem',
-  border: 'none',
-  borderRadius: '30px',
-  userSelect: 'none',
-  transition: 'background-color 0.3s ease',
-};
+     const buttonStyle = {
+       color: 'white',
+         padding: '12px',
+          fontWeight: '700',
+           fontSize: '1rem',
+            border: 'none',
+             borderRadius: '30px',
+                 userSelect: 'none',
+                    transition: 'background-color 0.3s ease',
+                     };
 
 export default Register;

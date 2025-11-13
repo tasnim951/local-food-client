@@ -88,7 +88,7 @@ export default function HowItWorksFeatures() {
           overflow: "hidden",
         }}
       >
-        {features.map(({ icon, title, desc }, index) => (
+            {features.map(({ icon, title, desc }, index) => (
           <div
             key={index}
             style={{
@@ -98,7 +98,7 @@ export default function HowItWorksFeatures() {
               display: "flex",
               gap: "15px",
               alignItems: "flex-start",
-              backgroundColor: "transparent", 
+               backgroundColor: "transparent", 
               boxSizing: "border-box",
             }}
           >
@@ -124,6 +124,7 @@ export default function HowItWorksFeatures() {
                   maxWidth: "280px",
                 }}
               >
+               
                 {desc}
               </p>
             </div>
