@@ -99,8 +99,11 @@ function AllReviews() {
 
       <div style={{ maxWidth: '900px', margin: '0 auto' }}>
         {reviews.map((review) => (
-          <div
+           
+           
+           <div
             key={review._id}
+             
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -127,11 +130,17 @@ function AllReviews() {
               }}
             />
 
-            <div style={{ flex: 1 }}>
-              <h3 style={{ margin: '0 0 10px 0', color: '#2d6a4f', fontSize: '1.8rem' }}>
+            <div 
+            style={{ flex: 1 }}>
+             
+              <h3 
+              
+              style={{ margin: '0 0 10px 0', color: '#2d6a4f', fontSize: '1.8rem' }}>
                 {review.foodName}
               </h3>
-              <p style={{ margin: '0 0 8px 0', fontWeight: '600', color: '#386641', fontSize: '1.1rem' }}>
+              <p 
+              
+              style={{ margin: '0 0 8px 0', fontWeight: '600', color: '#386641', fontSize: '1.1rem' }}>
                 {review.restaurantName}
               </p>
               <p
@@ -149,7 +158,8 @@ function AllReviews() {
 
             <button
                 onClick={() => handleFavorite(review._id)}
-              style={{
+             
+                style={{
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',

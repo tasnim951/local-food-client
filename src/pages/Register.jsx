@@ -156,7 +156,9 @@ function Register() {
             color: '#2d6a4f',
           }}
         >
-          <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Register</h2>
+          <h2 
+          style={{ marginBottom: '20px',
+           textAlign: 'center' }}>Register</h2>
 
           <label>Name*</label>
           <input

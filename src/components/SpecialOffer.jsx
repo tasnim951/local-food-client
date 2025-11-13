@@ -3,6 +3,7 @@ import special1 from "../assets/special-1.jpg";
 export default function SpecialOffer() {
   return (
     <section
+      className="special-offer"
       style={{
         background: "linear-gradient(90deg, #c1e1c1 0%, #e8f5e9 100%)",
         padding: "60px 40px",
@@ -14,11 +15,11 @@ export default function SpecialOffer() {
         boxSizing: "border-box",
         position: "relative",
         color: "#2d6a4f",
+        flexWrap: "wrap", 
       }}
     >
-      
-      <div style={{ flex: 1, paddingRight: "40px" }}>
-       
+    
+      <div style={{ flex: 1, paddingRight: "40px", minWidth: "280px" }}>
         <p
           style={{
             textTransform: "uppercase",
@@ -58,9 +59,8 @@ export default function SpecialOffer() {
           ></span>
         </p>
 
-       
-        <h2
-          style={{
+            <h2
+             style={{
             fontSize: "3.8rem",
             fontWeight: "900",
             margin: "0 0 20px",
@@ -72,7 +72,6 @@ export default function SpecialOffer() {
           Delicious <br /> Saucy Chicken Wings
         </h2>
 
-        {/* Description */}
         <p
           style={{
             fontSize: "1.4rem",
@@ -83,9 +82,10 @@ export default function SpecialOffer() {
           Deshi masala style • extra saucy • spicy flavour punch
         </p>
 
-        
-        <div
-          style={{
+          
+           <div
+         
+         style={{
             display: "inline-block",
             backgroundColor: "#27613cff",
             padding: "16px 40px",
@@ -97,25 +97,31 @@ export default function SpecialOffer() {
             cursor: "pointer",
             transition: "background-color 0.3s ease, transform 0.3s ease",
           }}
+            
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#4a775aff"; 
+            e.currentTarget.style.backgroundColor = "#4a775aff";
             e.currentTarget.style.transform = "scale(1.05)";
-            e.currentTarget.style.boxShadow = "0 6px 15px rgba(178, 212, 189, 0.6)";
+            e.currentTarget.style.boxShadow =
+              "0 6px 15px rgba(178, 212, 189, 0.6)";
           }}
-          onMouseLeave={(e) => {
+         
+         
+             onMouseLeave={(e) => {
             e.currentTarget.style.backgroundColor = "#203f2bff";
             e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow = "0 6px 15px rgba(57, 66, 60, 0.6)";
+            e.currentTarget.style.boxShadow =
+              "0 6px 15px rgba(57, 66, 60, 0.6)";
           }}
         >
           40% DISCOUNT
         </div>
       </div>
 
-      
+     
       <div
-        style={{
-          flex: "0 0 340px",
+           
+           style={{
+          width: "340px",
           height: "340px",
           borderRadius: "50%",
           overflow: "hidden",
@@ -123,21 +129,57 @@ export default function SpecialOffer() {
           userSelect: "none",
           pointerEvents: "none",
           border: "5px solid #2d6a4f",
-         
+          flexShrink: 0,
+          margin: "0 auto",
         }}
       >
         <img
+          
           src={special1}
-          alt="Saucy Chicken Wings"
+            alt="Saucy Chicken Wings"
           style={{
             width: "100%",
             height: "100%",
             objectFit: "cover",
             display: "block",
-           
           }}
         />
       </div>
+
+      
+      <style>
+        {`
+          @media (max-width: 768px) {
+            .special-offer {
+              flex-direction: column;
+              padding: 40px 20px;
+            }
+
+      .special-offer > div:first-child {
+              padding-right: 0;
+              text-align: center;
+            }
+
+             .special-offer > div:last-child {
+              width: 200px !important;
+              height: 200px !important;
+              margin-top: 30px;
+            }
+
+       .special-offer > div:last-child img {
+              border-radius: 50%;
+            }
+
+            .special-offer h2 {
+              font-size: 2.5rem;
+            }
+
+            .special-offer p {
+              font-size: 1.2rem;
+            }
+          }
+        `}
+      </style>
     </section>
-  );
+  );
 }

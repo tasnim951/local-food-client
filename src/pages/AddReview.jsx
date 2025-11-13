@@ -81,7 +81,9 @@ export default function AddReview() {
   };
 
   return (
-    <div
+      <div
+        
+      
       style={{
         maxWidth: "600px",
         margin: "40px auto",
@@ -98,7 +100,8 @@ export default function AddReview() {
       </h2>
 
       <form
-        onSubmit={handleSubmit}
+         
+         onSubmit={handleSubmit}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -123,14 +126,15 @@ export default function AddReview() {
           required
           disabled={loading}
         />
-        <input
-          name="restaurantName"
-          value={formData.restaurantName}
+             
+             <input
+            name="restaurantName"
+             value={formData.restaurantName}
           onChange={handleChange}
-          placeholder="Restaurant Name"
-          style={inputStyle}
-          required
-          disabled={loading}
+             placeholder="Restaurant Name"
+             style={inputStyle}
+              required
+            disabled={loading}
         />
         <input
           name="location"
@@ -174,22 +178,26 @@ export default function AddReview() {
           disabled={loading}
           style={{
             background: "#2d6a4f",
-            color: "white",
+             color: "white",
             padding: "10px",
             borderRadius: "8px",
-            fontSize: "16px",
+              fontSize: "16px",
             border: "none",
-            cursor: loading ? "not-allowed" : "pointer",
+             cursor: loading ? "not-allowed" : "pointer",
             transition: "0.2s",
           }}
           onMouseOver={(e) => {
             if (!loading) e.currentTarget.style.background = "#40916c";
           }}
+         
+         
           onMouseOut={(e) => {
             if (!loading) e.currentTarget.style.background = "#2d6a4f";
           }}
         >
-          {loading ? "Submitting..." : "Add Review"}
+         
+         
+           {loading ? "Submitting..." : "Add Review"}
         </button>
       </form>
     </div>

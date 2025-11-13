@@ -48,15 +48,15 @@ const router = createBrowserRouter([
     element: <Layout />,
     children: [
       { index: true, element: <Home /> },
-      { path: "login", element: <Login /> },
-      { path: "register", element: <Register /> },
-      { path: "add-review", element: <AddReview /> },
-      { path: "my-reviews", element: <MyReviews /> },
-      { path: "allreviews", element: <AllReviews /> },
-      { path: "my-favorites", element: <MyFavorites /> },
-      { path: "review-card", element: <ReviewCard /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
+      { path: "/add-review", element: <AddReview /> },
+      { path: "/my-reviews", element: <MyReviews /> },
+      { path: "/allreviews", element: <AllReviews /> },
+      { path: "/my-favorites", element: <MyFavorites /> },
+      { path: "/review-card", element: <ReviewCard /> },
 
-      { path: "edit-review/:id", element: <EditReview /> },  
+      { path: "/edit-review/:id", element: <EditReview /> },  
 
       { path: "*", element: <NotFound /> },
     ],

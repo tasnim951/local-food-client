@@ -56,18 +56,32 @@ export default function EditReview() {
   };
 
   if (loading) {
-    return <p style={{ textAlign: "center", marginTop: "100px" }}>Loading...</p>;
+    return <p 
+    style={{ textAlign: "center",
+        
+    marginTop: "100px" }}>
+        Loading...</p>;
   }
 
   if (!review) {
-    return <p style={{ textAlign: "center", marginTop: "100px" }}>Review not found.</p>;
+    return <p
+     style={{ textAlign: "center",
+         marginTop: "100px" }}>
+            Review not found.</p>;
   }
 
   return (
-    <div style={{ maxWidth: "600px", margin: "40px auto", padding: "20px" }}>
-      <h2 style={{ textAlign: "center", color: "#2d6a4f" }}>Edit Review</h2>
-      <form onSubmit={handleSubmit} style={formStyle}>
-        <label style={labelStyle}>Food Name</label>
+    <div 
+    style={{ maxWidth: "600px",
+     margin: "40px auto",
+      padding: "20px" }}>
+
+      <h2
+       style={{ textAlign: "center", color: "#2d6a4f" }}>Edit Review</h2>
+      <form 
+      onSubmit={handleSubmit} style={formStyle}>
+        <label
+         style={labelStyle}>Food Name</label>
         <input
           type="text"
           name="foodName"
@@ -77,7 +91,9 @@ export default function EditReview() {
           required
         />
 
-        <label style={labelStyle}>Restaurant Name</label>
+        <label 
+        style={labelStyle}>Restaurant Name</label>
+       
         <input
           type="text"
           name="restaurantName"
@@ -87,8 +103,10 @@ export default function EditReview() {
           required
         />
 
-        <label style={labelStyle}>Food Image URL</label>
-        <input
+        <label
+         style={labelStyle}>Food Image URL</label>
+        
+         <input
           type="text"
           name="foodImage"
           value={review.foodImage || ""}
@@ -97,7 +115,10 @@ export default function EditReview() {
           required
         />
 
-        <label style={labelStyle}>Location</label>
+        <label 
+        
+        style={labelStyle}>
+            Location</label>
         <input
           type="text"
           name="location"
@@ -107,8 +128,11 @@ export default function EditReview() {
           required
         />
 
-        <label style={labelStyle}>Star Rating</label>
-        <input
+        <label  
+        
+        style={labelStyle}>Star Rating</label>
+         
+         <input
           type="number"
           name="starRating"
           min="1"

@@ -10,7 +10,7 @@ export default function NotFound() {
       }}
     >
      
-      <img
+         <img
         src="/src/assets/error.avif"
         alt="404"
         style={{
@@ -45,6 +45,7 @@ export default function NotFound() {
 
         <a
           href="/"
+        
           style={{
             background: "#2d6a4f",
             padding: "14px 32px",
@@ -57,8 +58,11 @@ export default function NotFound() {
             transition: ".2s",
             display: "inline-block",
           }}
-          onMouseEnter={(e) => (e.target.style.background = "#1b4332")}
-          onMouseLeave={(e) => (e.target.style.background = "#2d6a4f")}
+          onMouseEnter={(e) => 
+            (e.target.style.background = "#1b4332")}
+         
+          onMouseLeave={(e) => 
+            (e.target.style.background = "#2d6a4f")}
         >
           Back To Home
         </a>

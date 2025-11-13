@@ -9,7 +9,7 @@ const Home = () => {
   const { user } = useContext(AuthContext);  
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{ padding: "10px" }}>
       <HeroSlider />
       <ReviewCard loggedInUserEmail={user?.email} /> 
       <HowItWorksFeatures />
@@ -18,4 +18,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Home;

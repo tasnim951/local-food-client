@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
+import banner1 from "../assets/banner-1.jpg";
+import banner2 from "../assets/banner-2.jpg";
+import banner3 from "../assets/banner-3.jpg";
+import banner4 from "../assets/banner-4.jpg";
 
 const images = [
-  { src: "src/assets/Banner-1.jpg", title: "Delicious Biryani", desc: "Experience the rich flavors of our local biryani." },
-  { src: "src/assets/banner-2.jpg", title: "Spicy Fuchka", desc: "Taste the crunchy street favorite with a twist." },
-  { src: "src/assets/banner-3.jpg", title: "Crispy Samosa", desc: "Perfect snack with a crispy golden shell." },
-  { src: "src/assets/banner-4.jpg", title: "Ruti & Beef Curry", desc: "Traditional home-cooked comfort meal." },
+  { src: banner1, title: "Delicious Biryani", desc: "Experience the rich flavors of our local biryani." },
+  { src: banner2, title: "Spicy Fuchka", desc: "Taste the crunchy street favorite with a twist." },
+  { src: banner3, title: "Crispy Samosa", desc: "Perfect snack with a crispy golden shell." },
+  { src: banner4, title: "Ruti & Beef Curry", desc: "Traditional home-cooked comfort meal." },
 ];
 
-export default function HeroSlider() {
-  const [current, setCurrent] = useState(0);
+       export default function HeroSlider() {
+          const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -19,6 +23,7 @@ export default function HeroSlider() {
 
   return (
     <section
+      className="hero-slider"
       style={{
         position: "relative",
         width: "100%",
@@ -46,12 +51,18 @@ export default function HeroSlider() {
             flexDirection: "column",
             justifyContent: "center",
             paddingLeft: "50px",
-            backgroundColor: "rgba(0,0,0,0.4)", 
+            backgroundColor: "rgba(0,0,0,0.4)",
             backgroundBlendMode: "darken",
-            pointerEvents: index === current ? "auto" : "none", 
+            pointerEvents: index === current ? "auto" : "none",
           }}
         >
-          <h1 style={{ fontFamily: "'Poppins', sans-serif", fontSize: "3rem", marginBottom: "5px" }}>
+          <h1
+            style={{
+              fontFamily: "'Poppins', sans-serif",
+              fontSize: "3rem",
+              marginBottom: "5px",
+            }}
+          >
             {img.title}
           </h1>
           <p
@@ -64,23 +75,20 @@ export default function HeroSlider() {
           >
             {img.desc}
           </p>
-          <button
-            style={{
-              padding: "10px 16px",
-              fontSize: "1.1rem",
-              backgroundColor: "#ffb743ff",
-              border: "none",
-              borderRadius: "8px",
-              color: "#2d6a4f",
-              fontWeight: "bold",
-              cursor: "pointer",
-              width: "max-content",
-            }}
-          >
-            Explore More
-          </button>
         </div>
       ))}
+
+     
+      <style>
+        {`
+          @media (max-width: 768px) {
+            .hero-slider h1,
+            .hero-slider p {
+              display: none;
+            }
+          }
+        `}
+      </style>
     </section>
-  );
+  );
 }

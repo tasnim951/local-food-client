@@ -76,7 +76,9 @@ function Login() {
           color: '#2d6a4f',
         }}
       >
-        <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Login</h2>
+        <h2 style={{ marginBottom: '20px', 
+            textAlign: 'center' }}>
+                Login</h2>
 
         <label>Email</label>
         <input
@@ -90,7 +92,8 @@ function Login() {
         />
 
         <label>Password</label>
-        <input
+          
+          <input
           type="password"
           name="password"
           value={formData.password}
@@ -137,10 +140,17 @@ function Login() {
           Continue with Google
         </button>
 
-        <p style={{ textAlign: 'center', marginTop: '20px', color: '#386641' }}>
+        <p style={{ textAlign: 'center', 
+            marginTop: '20px', 
+            color: '#386641' }}>
+
           New to our website?{' '}
-          <Link to="/register" style={{ color: '#2d6a4f', fontWeight: '700' }}>
+
+          <Link to="/register"
+           style={{ color: '#2d6a4f',
+            fontWeight: '700' }}>
             Register here
+
           </Link>
         </p>
       </form>
@@ -170,4 +180,4 @@ const buttonStyle = {
   transition: 'background-color 0.3s ease',
 };
 
-export default Login;
+export default Login;

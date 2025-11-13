@@ -74,10 +74,19 @@ export default function MyReviews() {
   }
 
   return (
-    <div style={{ maxWidth: "900px", margin: "40px auto", padding: "20px" }}>
-      <h2 style={{ textAlign: "center", color: "#2d6a4f", marginBottom: "20px" }}>
+    <div
+     style={{ maxWidth: "900px",
+      margin: "40px auto", 
+      
+      padding: "20px" }}>
+
+      <h2 style={{ textAlign: "center",
+        
+        color: "#2d6a4f",
+         marginBottom: "20px" }}>
         My Reviews
       </h2>
+      
       {reviews.length === 0 ? (
         <p style={{ textAlign: "center" }}>You have not added any reviews yet.</p>
       ) : (
@@ -145,7 +154,8 @@ export default function MyReviews() {
                 marginTop: "20px",
               }}
             >
-              <button onClick={confirmDelete} style={confirmButtonStyle}>
+              <button onClick={confirmDelete}
+               style={confirmButtonStyle}>
                 Confirm
               </button>
               <button onClick={closeDeleteModal} style={cancelButtonStyle}>

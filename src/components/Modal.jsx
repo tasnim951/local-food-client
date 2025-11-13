@@ -9,7 +9,7 @@ export default function Modal({ modalData, closeModal }) {
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "rgba(45, 106, 79, 0.6)", 
+        backgroundColor: "rgba(45, 106, 79, 0.6)",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -21,22 +21,19 @@ export default function Modal({ modalData, closeModal }) {
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          background:
-            "linear-gradient(135deg, #e6f0e9 0%, #ffffff 100%)",
+          background: "linear-gradient(135deg, #e6f0e9 0%, #ffffff 100%)",
           borderRadius: "15px",
-          padding: "20px 25px",
-          maxWidth: "450px",
+          padding: "20px",
           width: "100%",
+          maxWidth: "450px",
           boxShadow: "0 8px 20px rgba(45, 106, 79, 0.35)",
-          fontFamily:
-            "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
           color: "#2d6a4f",
           position: "relative",
           textAlign: "center",
           userSelect: "none",
         }}
       >
-       
         <button
           onClick={closeModal}
           style={{
@@ -57,10 +54,9 @@ export default function Modal({ modalData, closeModal }) {
           }}
           aria-label="Close modal"
         >
-          ×
+               x
         </button>
 
-       
         <img
           src={modalData.photo}
           alt={modalData.foodName}
@@ -122,6 +118,8 @@ export default function Modal({ modalData, closeModal }) {
             padding: "0 5px",
           }}
         >
+         
+         
           <h3
             style={{
               fontWeight: "700",
@@ -137,12 +135,7 @@ export default function Modal({ modalData, closeModal }) {
           <p>{modalData.description}</p>
         </div>
 
-        {/* Contact Info */}
-        <div
-          style={{
-            padding: "0 5px",
-          }}
-        >
+        <div style={{ padding: "0 5px" }}>
           <h3
             style={{
               fontWeight: "700",
@@ -156,7 +149,7 @@ export default function Modal({ modalData, closeModal }) {
             Contact Info
           </h3>
           <p style={{ margin: "6px 0" }}>
-            Contact: {" "}
+            Contact:{" "}
             <a
               href={`tel:${modalData.contact.phone}`}
               style={{ color: "#1b4332", textDecoration: "none" }}
@@ -165,7 +158,7 @@ export default function Modal({ modalData, closeModal }) {
             </a>
           </p>
           <p style={{ margin: "6px 0" }}>
-            E-mail :{" "}
+            E-mail:{" "}
             <a
               href={`mailto:${modalData.contact.email}`}
               style={{ color: "#1b4332", textDecoration: "none" }}
@@ -174,7 +167,37 @@ export default function Modal({ modalData, closeModal }) {
             </a>
           </p>
         </div>
+
+       
+          <style>
+          {`
+            @media (max-width: 500px) {
+              div[style*="maxWidth: 450px"] {
+                max-width: 95%;
+                padding: 15px;
+              }
+              h2 {
+                font-size: 1.3rem;
+                padding-left: 30px;
+              }
+              img {
+                max-height: 150px;
+              }
+              h3 {
+                font-size: 1rem;
+              }
+              p {
+                font-size: 0.9rem;
+              }
+              button[aria-label="Close modal"] {
+                width: 24px;
+                height: 24px;
+                font-size: 16px;
+              }
+            }
+          `}
+        </style>
       </div>
-    </div>
-  );
+    </div>
+  );
 }

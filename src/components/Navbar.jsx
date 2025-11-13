@@ -1,4 +1,3 @@
-import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router";
 import { useContext, useState, useRef, useEffect } from "react";
 import { AuthContext } from "../contexts/AuthProvider";
@@ -8,9 +7,9 @@ import defaultAvatar from "../assets/profile.png";
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -36,49 +35,69 @@ export default function Navbar() {
         fontFamily: "'Fredoka One', cursive",
         position: "relative",
         zIndex: 10,
+        flexWrap: "wrap", 
       }}
     >
+     
+     <div style={{ display: "flex", alignItems: "center", gap: "0", userSelect: "none", height:"50px" }}>
+  <span style={{ fontSize: "48px", color: "#2d6a4f", lineHeight: "48px" }}>F</span>
+
+  <div style={{ width: "48px", height: "48px", display: "flex", alignItems: "center" }}>
+    <img
+      src={logo}
+      alt="Foodian Logo O1"
+      style={{ width: "48px", height: "48px", borderRadius: "50%", objectFit: "cover" }}
+    />
+  </div>
+
+  <div style={{ width: "48px", height: "48px", display: "flex", alignItems: "center" }}>
+    <img
+      src={logo}
+      alt="Foodian Logo O2"
+      style={{ width: "48px", height: "48px", borderRadius: "50%", objectFit: "cover" }}
+    />
+  </div>
+
+  <span style={{ fontSize: "48px", color: "#2d6a4f", lineHeight: "48px" }}>DIAN</span>
+</div>
+
       
       <div
-        style={{ display: "flex", alignItems: "center", gap: "0", userSelect: "none" }}
+        style={{
+          display: "none",
+          cursor: "pointer",
+          fontSize: "28px",
+          color: "#2d6a4f",
+          userSelect: "none",
+        }}
+        onClick={() => setMobileMenuOpen((prev) => !prev)}
+        className="hamburger-menu"
       >
-        <span style={{ fontSize: "48px", color: "#2d6a4f" }}>F</span>
-
-        <div style={{ width: "48px", height: "48px" }}>
-          <img
-            src={logo}
-            alt="Foodian Logo O1"
-            style={{ width: "48px", height: "48px", borderRadius: "50%", objectFit: "cover" }}
-          />
-        </div>
-
-        <div style={{ width: "48px", height: "48px" }}>
-          <img
-            src={logo}
-            alt="Foodian Logo O2"
-            style={{ width: "48px", height: "48px", borderRadius: "50%", objectFit: "cover" }}
-          />
-        </div>
-
-        <span style={{ fontSize: "48px", color: "#2d6a4f" }}>DIAN</span>
+        &#9776;
       </div>
 
-     
+      {/* Nav Links */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
           gap: "20px",
-          fontSize: "18px",
+          fontSize: "20px",
           fontWeight: 700,
-          fontFamily: "'Poppins', sans-serif",
+          fontFamily: " sans-serif",
           color: "#2d6a4f",
           position: "relative",
-        }}
-      >
-        <FaSearch style={{ cursor: "pointer", fontSize: "20px" }} />
+          height:"20px",
+         marginTop: "-20px",
 
-        {/* HOME LINK ADDED HERE */}
+      
+          flexBasis: "100%",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+        }}
+        className="nav-links"
+      >
+       
         <Link
           to="/"
           style={linkStyle}
@@ -122,8 +141,8 @@ export default function Navbar() {
                 e.target.src = defaultAvatar;
               }}
               style={{
-                width: "42px",
-                height: "42px",
+                width: "48px",
+                height: "48px",
                 borderRadius: "50%",
                 objectFit: "cover",
                 border: "2px solid #2d6a4f",
@@ -181,17 +200,55 @@ export default function Navbar() {
           </div>
         )}
       </div>
+
+      
+          <style>
+       
+        {`
+          @media (max-width: 768px) {
+            nav {
+              padding: 15px 20px;
+            }
+            .hamburger-menu {
+              display: block !important;
+            }
+            .nav-links {
+              display: ${mobileMenuOpen ? "flex" : "none"} !important;
+              flex-direction: column !important;
+              gap: 12px !important;
+              margin-top: 10px;
+              width: 100%;
+             
+              justify-content: flex-start !important;
+            }
+           
+           
+               .nav-links a, .nav-links button {
+              width: 100%;
+              padding: 10px 0;
+              border-radius: 6px;
+              text-align: left;
+              font-size: 20px;
+              background-color: rgba(111, 207, 151, 0.15);
+            }
+          }
+        `}
+      </style>
     </nav>
   );
 }
 
 const linkStyle = {
   textDecoration: "none",
-  padding: "6px 14px",
+  padding: "0 12px",
   borderRadius: "8px",
   color: "#2d6a4f",
   transition: "all 0.2s",
   userSelect: "none",
+  display: "flex",
+  fontSize:"18px",
+  alignItems:"center",
+ 
 };
 
 const dropdownLinkStyle = {

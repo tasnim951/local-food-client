@@ -7,21 +7,16 @@ function ReviewCard({ loggedInUserEmail }) {
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const [modalData, setModalData] = useState(null);
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/reviews')  
+    fetch('http://localhost:5000/reviews')
       .then(res => res.json())
       .then(data => {
-        
         const filtered = loggedInUserEmail
           ? data.filter(review => review.userEmail !== loggedInUserEmail)
           : data;
-
-       
         const limited = filtered.slice(0, 6);
-
         setReviews(limited);
         setLoading(false);
       })
@@ -61,8 +56,10 @@ function ReviewCard({ loggedInUserEmail }) {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         color: '#2d6a4f',
         minHeight: '100vh',
-        marginTop: "60px",
+        marginTop: "10px",
         borderRadius: "8px",
+        position:"relative",
+       
       }}
     >
       <h2
@@ -107,11 +104,11 @@ function ReviewCard({ loggedInUserEmail }) {
         ></span>
       </h2>
 
-      <div
+      
+        <div
         style={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '30px',
           maxWidth: '1100px',
           margin: '0 auto 50px',
@@ -124,8 +121,6 @@ function ReviewCard({ loggedInUserEmail }) {
               backgroundColor: 'white',
               borderRadius: '15px',
               boxShadow: '0 8px 16px rgba(45, 106, 79, 0.2)',
-              width: 'calc(33.333% - 20px)',
-              minWidth: '280px',
               padding: '20px',
               boxSizing: 'border-box',
               display: 'flex',
@@ -158,6 +153,7 @@ function ReviewCard({ loggedInUserEmail }) {
                 color: '#52796f',
                 margin: '3px 0 10px 0',
                 fontSize: '0.9rem',
+                textAlign: 'center',
               }}
             >
               Reviewed by {review.reviewerName}
@@ -183,7 +179,6 @@ function ReviewCard({ loggedInUserEmail }) {
                 fontSize: '0.9rem',
                 cursor: 'pointer',
                 transition: 'background-color 0.3s ease',
-                userSelect: 'none',
               }}
               onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#1b4332')}
               onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#2d6a4f')}
@@ -208,16 +203,21 @@ function ReviewCard({ loggedInUserEmail }) {
             cursor: 'pointer',
             boxShadow: '0 4px 8px rgba(56, 102, 65, 0.4)',
             transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
-            userSelect: 'none',
           }}
+           
+          
           onMouseEnter={e => {
             e.currentTarget.style.backgroundColor = '#2d6a4f';
             e.currentTarget.style.boxShadow = '0 6px 12px rgba(45, 106, 79, 0.6)';
           }}
+          
+          
           onMouseLeave={e => {
             e.currentTarget.style.backgroundColor = '#386641';
             e.currentTarget.style.boxShadow = '0 4px 8px rgba(56, 102, 65, 0.4)';
           }}
+         
+         
           onClick={() => navigate('/allreviews')}
         >
           SHOW ALL
