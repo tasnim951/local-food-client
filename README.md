@@ -12,3 +12,21 @@ Foodian is a simple and easy-to-use food review website where users can find and
 - Responsive design works well on both desktop and mobile devices.
 - User profile dropdown menu for easy access to personal pages.
 - Clean and modern layout with a smooth navigation bar and logo.
+
+- ## Installation & Running Locally
+
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/tasnim951/local-food-client.git
+
+2. Navigate into the project directory:
+
+cd local-food-client
+
+
+
+
+
+
+
+6. Open http://localhost:3000 in your browser to see the app.
