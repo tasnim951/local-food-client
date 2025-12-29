@@ -1,8 +1,8 @@
 import { Link } from "react-router";
 import { useContext, useState, useRef, useEffect } from "react";
 import { AuthContext } from "../contexts/AuthProvider";
-import logo from "../assets/logo.png";      
-import defaultAvatar from "../assets/profile.png"; 
+import logo from "../assets/logo.png";
+import defaultAvatar from "../assets/profile.png";
 
 export default function Navbar() {
   const { user, logout } = useContext(AuthContext);
@@ -17,9 +17,7 @@ export default function Navbar() {
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -32,124 +30,98 @@ export default function Navbar() {
         background: "linear-gradient(90deg, #6fcf97, #ffffff)",
         borderRadius: "10px",
         boxShadow: "0 6px 12px rgba(0,0,0,0.1)",
-        fontFamily: "'Fredoka One', cursive",
         position: "relative",
         zIndex: 10,
-        flexWrap: "wrap", 
       }}
     >
-     
-     <div style={{ display: "flex", alignItems: "center", gap: "0", userSelect: "none", height:"50px" }}>
-  <span style={{ fontSize: "48px", color: "#2d6a4f", lineHeight: "48px" }}>F</span>
+      {/* LOGO (CLICKABLE HOME) */}
+      <Link to="/" style={{ textDecoration: "none" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            height: "50px",
+            userSelect: "none",
+            cursor: "pointer",
+            fontFamily: "'Fredoka One', cursive",
+          }}
+        >
+          <span style={{ fontSize: "46px", color: "#2d6a4f" }}>F</span>
 
-  <div style={{ width: "48px", height: "48px", display: "flex", alignItems: "center" }}>
-    <img
-      src={logo}
-      alt="Foodian Logo O1"
-      style={{ width: "48px", height: "48px", borderRadius: "50%", objectFit: "cover" }}
-    />
-  </div>
+          <img
+            src={logo}
+            alt="Foodian Logo 1"
+            style={{
+              width: "46px",
+              height: "46px",
+              borderRadius: "50%",
+              objectFit: "cover",
+            }}
+          />
 
-  <div style={{ width: "48px", height: "48px", display: "flex", alignItems: "center" }}>
-    <img
-      src={logo}
-      alt="Foodian Logo O2"
-      style={{ width: "48px", height: "48px", borderRadius: "50%", objectFit: "cover" }}
-    />
-  </div>
+          <img
+            src={logo}
+            alt="Foodian Logo 2"
+            style={{
+              width: "46px",
+              height: "46px",
+              borderRadius: "50%",
+              objectFit: "cover",
+            }}
+          />
 
-  <span style={{ fontSize: "48px", color: "#2d6a4f", lineHeight: "48px" }}>DIAN</span>
-</div>
+          <span style={{ fontSize: "46px", color: "#2d6a4f" }}>DIAN</span>
+        </div>
+      </Link>
 
-      
+      {/* HAMBURGER ICON */}
       <div
-        style={{
-          display: "none",
-          cursor: "pointer",
-          fontSize: "28px",
-          color: "#2d6a4f",
-          userSelect: "none",
-        }}
-        onClick={() => setMobileMenuOpen((prev) => !prev)}
         className="hamburger-menu"
+        onClick={() => setMobileMenuOpen((prev) => !prev)}
+        style={{
+          cursor: "pointer",
+          fontSize: "30px",
+          color: "#2d6a4f",
+          display: "none",
+        }}
       >
-        &#9776;
+        ☰
       </div>
 
-      {/* Nav Links */}
+      {/* NAV LINKS */}
       <div
+        className="nav-links"
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "20px",
-          fontSize: "20px",
-          fontWeight: 700,
-          fontFamily: " sans-serif",
-          color: "#2d6a4f",
-          position: "relative",
-          height:"20px",
-         marginTop: "-20px",
-
-      
-          flexBasis: "100%",
-          flexDirection: "row",
-          justifyContent: "flex-end",
+          gap: "22px",
+          fontFamily: "'Poppins', sans-serif",
+          fontWeight: 600,
         }}
-        className="nav-links"
       >
-       
-        <Link
-          to="/"
-          style={linkStyle}
-          onMouseOver={(e) => (e.currentTarget.style.background = "rgba(47,128,79,0.15)")}
-          onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
-        >
-          Home
-        </Link>
+        <Link to="/" style={linkStyle}>Home</Link>
 
         {!user && (
           <>
-            <Link
-              to="/login"
-              style={linkStyle}
-              onMouseOver={(e) => (e.currentTarget.style.background = "rgba(47,128,79,0.15)")}
-              onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
-            >
-              Login
-            </Link>
-
-            <Link
-              to="/register"
-              style={linkStyle}
-              onMouseOver={(e) => (e.currentTarget.style.background = "rgba(47,128,79,0.15)")}
-              onMouseOut={(e) => (e.currentTarget.style.background = "transparent")}
-            >
-              Register
-            </Link>
+            <Link to="/login" style={linkStyle}>Login</Link>
+            <Link to="/register" style={linkStyle}>Register</Link>
           </>
         )}
 
         {user && (
           <div ref={dropdownRef} style={{ position: "relative" }}>
             <img
-              src={
-                user.photoURL && user.photoURL.trim() !== "" ? user.photoURL : defaultAvatar
-              }
+              src={user.photoURL?.trim() ? user.photoURL : defaultAvatar}
               alt="User Avatar"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = defaultAvatar;
-              }}
+              onClick={() => setDropdownOpen((p) => !p)}
               style={{
-                width: "48px",
-                height: "48px",
+                width: "44px",
+                height: "44px",
                 borderRadius: "50%",
                 objectFit: "cover",
                 border: "2px solid #2d6a4f",
                 cursor: "pointer",
               }}
-              onClick={() => setDropdownOpen((prev) => !prev)}
-              title={user.displayName || "User"}
             />
 
             {dropdownOpen && (
@@ -158,39 +130,25 @@ export default function Navbar() {
                   position: "absolute",
                   right: 0,
                   top: "calc(100% + 8px)",
-                  background: "white",
+                  background: "#fff",
                   borderRadius: "8px",
                   boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
                   width: "180px",
-                  fontSize: "16px",
-                  color: "#2d6a4f",
-                  zIndex: 20,
+                  fontFamily: "'Poppins', sans-serif",
                 }}
               >
-                <Link to="/add-review" style={dropdownLinkStyle} onClick={() => setDropdownOpen(false)}>
-                  Add Review
-                </Link>
-                <Link to="/my-reviews" style={dropdownLinkStyle} onClick={() => setDropdownOpen(false)}>
-                  My Reviews
-                </Link>
-                <Link to="/my-favorites" style={dropdownLinkStyle} onClick={() => setDropdownOpen(false)}>
-                  My Favorites
-                </Link>
+                <Link to="/add-review" style={dropdownLinkStyle}>Add Review</Link>
+                <Link to="/my-reviews" style={dropdownLinkStyle}>My Reviews</Link>
+                <Link to="/my-favorites" style={dropdownLinkStyle}>My Favorites</Link>
                 <button
-                  onClick={() => {
-                    logout();
-                    setDropdownOpen(false);
-                  }}
+                  onClick={logout}
                   style={{
                     ...dropdownLinkStyle,
-                    background: "none",
                     border: "none",
+                    background: "none",
+                    color: "#e63946",
                     width: "100%",
                     textAlign: "left",
-                    cursor: "pointer",
-                    padding: "10px 20px",
-                    fontWeight: "700",
-                    color: "#e63946",
                   }}
                 >
                   Logout
@@ -201,54 +159,45 @@ export default function Navbar() {
         )}
       </div>
 
-      
-          <style>
-       
-        {`
-          @media (max-width: 768px) {
-            nav {
-              padding: 15px 20px;
-            }
-            .hamburger-menu {
-              display: block !important;
-            }
-            .nav-links {
-              display: ${mobileMenuOpen ? "flex" : "none"} !important;
-              flex-direction: column !important;
-              gap: 12px !important;
-              margin-top: 10px;
-              width: 100%;
-             
-              justify-content: flex-start !important;
-            }
-           
-           
-               .nav-links a, .nav-links button {
-              width: 100%;
-              padding: 10px 0;
-              border-radius: 6px;
-              text-align: left;
-              font-size: 20px;
-              background-color: rgba(111, 207, 151, 0.15);
-            }
+      {/* MOBILE STYLES */}
+      <style>{`
+        @media (max-width: 768px) {
+          .hamburger-menu {
+            display: block;
           }
-        `}
-      </style>
+          .nav-links {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 15px 20px;
+            gap: 12px;
+            display: ${mobileMenuOpen ? "flex" : "none"};
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 0 0 10px 10px;
+          }
+          .nav-links a {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            background: rgba(111, 207, 151, 0.15);
+          }
+        }
+      `}</style>
     </nav>
   );
 }
 
 const linkStyle = {
   textDecoration: "none",
-  padding: "0 12px",
-  borderRadius: "8px",
   color: "#2d6a4f",
-  transition: "all 0.2s",
-  userSelect: "none",
-  display: "flex",
-  fontSize:"18px",
-  alignItems:"center",
- 
+  padding: "6px 14px",
+  borderRadius: "6px",
+  fontSize: "17px",
+  fontWeight: "600",
 };
 
 const dropdownLinkStyle = {
@@ -256,8 +205,6 @@ const dropdownLinkStyle = {
   padding: "10px 20px",
   textDecoration: "none",
   color: "#2d6a4f",
-  fontWeight: "600",
-  borderBottom: "1px solid #d9d9d9",
+  borderBottom: "1px solid #ddd",
   cursor: "pointer",
-  userSelect: "none",
 };

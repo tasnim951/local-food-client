@@ -10,7 +10,7 @@ function ReviewCard({ loggedInUserEmail }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost:5000/reviews')
+    fetch('https://local-food-server-rouge.vercel.app/reviews')
       .then(res => res.json())
       .then(data => {
         const filtered = loggedInUserEmail
@@ -28,7 +28,7 @@ function ReviewCard({ loggedInUserEmail }) {
 
   const openModal = async (foodName) => {
     try {
-      const res = await fetch(`http://localhost:5000/details/${encodeURIComponent(foodName)}`);
+      const res = await fetch(`https://local-food-server-rouge.vercel.app/details/${encodeURIComponent(foodName)}`);
       if (!res.ok) throw new Error('Details not found');
       const data = await res.json();
       setModalData(data);

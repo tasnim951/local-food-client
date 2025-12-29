@@ -14,7 +14,7 @@ function AllReviews() {
   useEffect(() => {
     const fetchAllReviews = async () => {
       try {
-        const res = await fetch('http://localhost:5000/allreviews');
+        const res = await fetch('https://local-food-server-rouge.vercel.app/allreviews');
         if (!res.ok) throw new Error('Failed to fetch reviews');
         const data = await res.json();
         setReviews(data);
@@ -29,7 +29,7 @@ function AllReviews() {
     const fetchUserFavorites = async () => {
       if (!user?.email) return;
       try {
-        const res = await fetch(`http://localhost:5000/my-favorites/${encodeURIComponent(user.email)}`);
+        const res = await fetch(`https://local-food-server-rouge.vercel.app/my-favorites/${encodeURIComponent(user.email)}`);
         if (!res.ok) throw new Error('Failed to fetch favorites');
         const favoritesData = await res.json();
         const favIds = new Set(favoritesData.map(fav => fav.review?._id));
@@ -54,7 +54,7 @@ function AllReviews() {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/my-favorites', {
+      const res = await fetch('https://local-food-server-rouge.vercel.app/my-favorites', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userEmail: user.email, reviewId }),

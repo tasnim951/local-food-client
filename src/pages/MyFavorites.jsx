@@ -13,7 +13,7 @@ export default function MyFavorites() {
       return;
     }
 
-    fetch(`http://localhost:5000/my-favorites/${encodeURIComponent(user.email)}`)
+    fetch(`https://local-food-server-rouge.vercel.app/my-favorites/${encodeURIComponent(user.email)}`)
       .then(res => res.json())
       .then(data => {
         setFavorites(data);
@@ -28,7 +28,7 @@ export default function MyFavorites() {
 
   const handleRemoveFavorite = async (favoriteId) => {
     try {
-      const res = await fetch(`http://localhost:5000/my-favorites/${favoriteId}`, {
+      const res = await fetch(`https://local-food-server-rouge.vercel.app/my-favorites/${favoriteId}`, {
         method: 'DELETE',
       });
 

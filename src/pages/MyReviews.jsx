@@ -23,7 +23,7 @@ export default function MyReviews() {
     setLoading(true);
     try {
       const res = await fetch(
-       ` http://localhost:5000/my-reviews/${encodeURIComponent(user.email)}`
+       ` https://local-food-server-rouge.vercel.app/my-reviews/${encodeURIComponent(user.email)}`
       );
       if (!res.ok) throw new Error("Failed to fetch reviews.");
       const data = await res.json();
@@ -48,7 +48,7 @@ export default function MyReviews() {
   const confirmDelete = async () => {
     if (!deleteReviewId) return;
     try {
-      const res = await fetch(`http://localhost:5000/reviews/${deleteReviewId}`, {
+      const res = await fetch(`https://local-food-server-rouge.vercel.app/reviews/${deleteReviewId}`, {
         method: "DELETE",
       });
       if (!res.ok) throw new Error("Failed to delete review.");
@@ -86,7 +86,7 @@ export default function MyReviews() {
          marginBottom: "20px" }}>
         My Reviews
       </h2>
-      
+
       {reviews.length === 0 ? (
         <p style={{ textAlign: "center" }}>You have not added any reviews yet.</p>
       ) : (
