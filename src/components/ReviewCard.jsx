@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import Modal from './Modal'; 
+import React, { useEffect, useState, useContext } from "react";
+import { useNavigate } from "react-router";
+import Modal from "./Modal";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 function ReviewCard({ loggedInUserEmail }) {
+  const { darkMode } = useContext(ThemeContext);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -10,223 +12,176 @@ function ReviewCard({ loggedInUserEmail }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('https://local-food-server-rouge.vercel.app/reviews')
-      .then(res => res.json())
-      .then(data => {
+    fetch("https://local-food-server-rouge.vercel.app/reviews")
+      .then((res) => res.json())
+      .then((data) => {
         const filtered = loggedInUserEmail
-          ? data.filter(review => review.userEmail !== loggedInUserEmail)
+          ? data.filter((r) => r.userEmail !== loggedInUserEmail)
           : data;
-        const limited = filtered.slice(0, 6);
-        setReviews(limited);
+        setReviews(filtered.slice(0, 6));
         setLoading(false);
       })
-      .catch(err => {
-        console.error('Failed to fetch reviews:', err);
-        setLoading(false);
-      });
+      .catch(() => setLoading(false));
   }, [loggedInUserEmail]);
 
   const openModal = async (foodName) => {
     try {
-      const res = await fetch(`https://local-food-server-rouge.vercel.app/details/${encodeURIComponent(foodName)}`);
-      if (!res.ok) throw new Error('Details not found');
+      const res = await fetch(
+        `https://local-food-server-rouge.vercel.app/details/${encodeURIComponent(foodName)}`
+      );
       const data = await res.json();
       setModalData(data);
       setModalOpen(true);
-    } catch (err) {
-      alert('Failed to fetch details');
-      console.error(err);
+    } catch {
+      alert("Failed to fetch details");
     }
   };
 
-  const closeModal = () => {
-    setModalOpen(false);
-    setModalData(null);
-  };
-
   if (loading) {
-    return <p style={{ textAlign: 'center', marginTop: '50px' }}>Loading reviews...</p>;
+    return (
+      <p style={{ textAlign: "center", marginTop: "80px" }}>
+        Loading reviews...
+      </p>
+    );
   }
 
+  /* ===== COFFEE THEME ===== */
+  const colors = darkMode
+    ? {
+        sectionBg: "#3B2F2F",
+        cardBg: "#FDF6F0",
+        text: "#2A1A12",
+        subText: "#6B4A3A",
+        button: "#8B5E3C",
+        buttonHover: "#6F4E37",
+      }
+    : {
+        sectionBg: "#FDF6F0",
+        cardBg: "#FFFFFF",
+        text: "#3B2F2F",
+        subText: "#6B4A3A",
+        button: "#6F4E37",
+        buttonHover: "#5A3E2B",
+      };
+
   return (
-    <section
-      style={{
-        backgroundColor: '#e6f0e9',
-        padding: '50px 20px',
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        color: '#2d6a4f',
-        minHeight: '100vh',
-        marginTop: "10px",
-        borderRadius: "8px",
-        position:"relative",
-       
-      }}
-    >
-      <h2
+   <section
+  style={{
+    backgroundColor: colors.sectionBg,
+    padding: "70px 20px",
+    marginTop: "80px", 
+    transition: "background-color 0.3s ease",
+  }}
+>
+  <h2
+    style={{
+      maxWidth: "1300px",
+      margin: "0 auto 50px",
+      fontSize: "2.6rem",
+      fontWeight: 700,
+      color: darkMode ? "#FFFFFF" : colors.text, 
+      transition: "color 0.3s ease",
+    }}
+  >
+    Featured Reviews
+  </h2>
+
+  <div
+    style={{
+      maxWidth: "1300px",
+      margin: "0 auto 60px",
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fit, minmax(320px, 1fr))",
+      gap: "30px",
+    }}
+  >
+    {reviews.map((review, idx) => (
+      <div
+        key={idx}
         style={{
-          fontSize: "2.5rem",
-          fontWeight: "700",
-          marginBottom: "40px",
-          fontFamily: "'Poppins'",
-          color: "#2d6a4f",
-          position: "relative",
-          display: "inline-block",
-          paddingLeft: "50px",
-          userSelect: "none",
+          backgroundColor: colors.cardBg,
+          borderRadius: "18px",
+          padding: "22px",
+          boxShadow: darkMode
+            ? "0 12px 28px rgba(0,0,0,0.45)"
+            : "0 10px 20px rgba(0,0,0,0.12)",
+          transition: "0.3s",
         }}
       >
-        FEATURED REVIEWS
-        <span
+        <img
+          src={review.photo}
+          alt={review.foodName}
           style={{
-            position: "absolute",
-            left: "20px",
-            top: "50%",
-            width: "12px",
-            height: "12px",
-            borderRadius: "50%",
-            background: "#2d6a4f",
-            transform: "translateY(-50%)",
-            boxShadow: "0 0 6px #95d5b2",
+            width: "100%",
+            height: "200px",
+            objectFit: "cover",
+            borderRadius: "14px",
+            marginBottom: "16px",
           }}
-        ></span>
-        <span
-          style={{
-            position: "absolute",
-            left: "-15px",
-            top: "50%",
-            width: "30px",
-            height: "3px",
-            background: "#2d6a4f",
-            borderRadius: "2px",
-            transform: "translateY(-50%)",
-            boxShadow: "0 0 8px #95d5b2",
-          }}
-        ></span>
-      </h2>
+        />
 
-      
-        <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '30px',
-          maxWidth: '1100px',
-          margin: '0 auto 50px',
-        }}
-      >
-        {reviews.map((review, idx) => (
-          <div
-            key={idx}
-            style={{
-              backgroundColor: 'white',
-              borderRadius: '15px',
-              boxShadow: '0 8px 16px rgba(45, 106, 79, 0.2)',
-              padding: '20px',
-              boxSizing: 'border-box',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              transition: 'transform 0.3s ease',
-              cursor: 'default',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.transform = 'scale(1.05)')}
-            onMouseLeave={e => (e.currentTarget.style.transform = 'scale(1)')}
-          >
-            <img
-              src={review.photo}
-              alt={review.foodName}
-              style={{
-                width: '100%',
-                height: '180px',
-                objectFit: 'cover',
-                borderRadius: '12px',
-                marginBottom: '15px',
-              }}
-            />
-            <h3 style={{ margin: '5px 0', color: '#2d6a4f' }}>{review.foodName}</h3>
-            <p style={{ margin: '3px 0', fontWeight: '600', color: '#386641' }}>
-              {review.restaurantName} — {review.location}
-            </p>
-            <p
-              style={{
-                fontStyle: 'italic',
-                color: '#52796f',
-                margin: '3px 0 10px 0',
-                fontSize: '0.9rem',
-                textAlign: 'center',
-              }}
-            >
-              Reviewed by {review.reviewerName}
-            </p>
-            <p
-              style={{
-                fontWeight: 'bold',
-                color: '#1b4332',
-                marginBottom: '15px',
-              }}
-            >
-              Rating: {review.rating}
-            </p>
+        <h3 style={{ color: colors.text }}>{review.foodName}</h3>
 
-            <button
-              style={{
-                backgroundColor: '#2d6a4f',
-                color: 'white',
-                border: 'none',
-                padding: '10px 20px',
-                borderRadius: '30px',
-                fontWeight: '600',
-                fontSize: '0.9rem',
-                cursor: 'pointer',
-                transition: 'background-color 0.3s ease',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#1b4332')}
-              onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#2d6a4f')}
-              onClick={() => openModal(review.foodName)}
-            >
-              View Details
-            </button>
-          </div>
-        ))}
-      </div>
+        <p style={{ fontWeight: 600, color: colors.subText }}>
+          {review.restaurantName} — {review.location}
+        </p>
 
-      <div style={{ textAlign: 'center' }}>
+        <p style={{ fontStyle: "italic", color: colors.subText }}>
+          Reviewed by {review.reviewerName}
+        </p>
+
+        <p style={{ fontWeight: "bold", color: colors.text }}>
+          Rating: {review.rating}
+        </p>
+
         <button
+          onClick={() => openModal(review.foodName)}
           style={{
-            backgroundColor: '#386641',
-            color: 'white',
-            border: 'none',
-            padding: '14px 40px',
-            borderRadius: '50px',
-            fontWeight: '700',
-            fontSize: '1.1rem',
-            cursor: 'pointer',
-            boxShadow: '0 4px 8px rgba(56, 102, 65, 0.4)',
-            transition: 'background-color 0.3s ease, box-shadow 0.3s ease',
+            marginTop: "14px",
+            backgroundColor: colors.button,
+            color: "#fff",
+            border: "none",
+            padding: "11px 28px",
+            borderRadius: "30px",
+            fontWeight: 600,
+            cursor: "pointer",
+            transition: "0.2s",
           }}
-           
-          
-          onMouseEnter={e => {
-            e.currentTarget.style.backgroundColor = '#2d6a4f';
-            e.currentTarget.style.boxShadow = '0 6px 12px rgba(45, 106, 79, 0.6)';
-          }}
-          
-          
-          onMouseLeave={e => {
-            e.currentTarget.style.backgroundColor = '#386641';
-            e.currentTarget.style.boxShadow = '0 4px 8px rgba(56, 102, 65, 0.4)';
-          }}
-         
-         
-          onClick={() => navigate('/allreviews')}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundColor = colors.buttonHover)
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundColor = colors.button)
+          }
         >
-          SHOW ALL
+          View Details
         </button>
       </div>
+    ))}
+  </div>
 
-      {modalOpen && <Modal modalData={modalData} closeModal={closeModal} />}
-    </section>
+  <div style={{ textAlign: "center" }}>
+    <button
+      onClick={() => navigate("/allreviews")}
+      style={{
+        backgroundColor: colors.button,
+        color: "#fff",
+        border: "none",
+        padding: "15px 48px",
+        borderRadius: "50px",
+        fontSize: "1.1rem",
+        fontWeight: 700,
+        cursor: "pointer",
+      }}
+    >
+      Show All
+    </button>
+  </div>
+
+  {modalOpen && <Modal modalData={modalData} closeModal={() => setModalOpen(false)} />}
+</section>
+
   );
 }
 
-export default ReviewCard;
+export default ReviewCard;

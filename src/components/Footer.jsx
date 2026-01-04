@@ -1,201 +1,211 @@
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { SiX } from "react-icons/si"; 
 import logo from "../assets/logo.png";
+import { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 export default function Footer() {
+  const { darkMode } = useContext(ThemeContext);
+
+  const bgColor = darkMode ? "#3B2F2F" : "#FDF6F0"; 
+  const textColor = darkMode ? "#FFFFFF" : "#3B2F2F";
+  const accentColor = darkMode ? "#8B5E3C" : "#6F4E37";
+
   return (
-    <footer
-      style={{
-        background: "linear-gradient(135deg, #6fcf97 0%, #ffffff 100%)",
-        padding: "60px 50px",
-        display: "flex",
-        justifyContent: "space-between",
-        flexWrap: "wrap",
-        gap: "50px",
-        borderTopLeftRadius: "10px",
-        borderTopRightRadius: "10px",
-        boxShadow: "0 -4px 15px rgba(0,0,0,0.05)",
-        fontFamily: "'Poppins', sans-serif",
-        color: "#2d6a4f",
-      }}
-    >
-     
-      <div style={{ flex: "1 1 300px", marginBottom: "25px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "15px", marginBottom: "20px" }}>
-          <img
-            src={logo}
-            alt="Foodian Logo"
-            style={{ width: "60px", height: "60px", borderRadius: "50%", objectFit: "cover" }}
-          />
-          <h3 style={{ fontSize: "36px", fontWeight: "700", margin: 0 }}>FOODIAN</h3>
+    <footer style={{ backgroundColor: bgColor, color: textColor, fontFamily: "'Poppins', sans-serif'" }}>
+      <div className="footer-container">
+       
+        <div className="footer-section footer-left">
+          <div className="footer-logo">
+            <img src={logo} alt="Foodian Logo" />
+            <h2>FOODIAN</h2>
+          </div>
+          <p>
+            Fresh and delicious food delivered to your door. Enjoy a seamless dining experience at home.
+          </p>
         </div>
-        <p style={{ fontSize: "18px", lineHeight: "1.8", maxWidth: "400px" }}>
-          Delicious food, delivered fresh to your door. Explore our menu and enjoy a wholesome dining experience at home.
-        </p>
-      </div>
 
-      
-      <div style={{ flex: "1 1 200px", marginBottom: "25px" }}>
-        <h4
-          style={{
-            fontSize: "24px",
-            fontWeight: "700",
-            marginBottom: "15px",
-            position: "relative",
-            display: "inline-block",
-            paddingLeft: "15px",
-          }}
-        >
-          Quick Links
-          <span
-            style={{
-              position: "absolute",
-              left: 0,
-              top: "50%",
-              width: "10px",
-              height: "10px",
-              borderRadius: "50%",
-              background: "#2d6a4f",
-              transform: "translateY(-50%)",
-            }}
-          ></span>
-          <span
-            style={{
-              position: "absolute",
-              left: "-30px",
-              top: "50%",
-              width: "20px",
-              height: "2px",
-              background: "#2d6a4f",
-              borderRadius: "2px",
-              transform: "translateY(-50%)",
-            }}
-          ></span>
-        </h4>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {["Home", "About", "Menu", "Contact"].map((link) => (
-            <li key={link} style={{ marginBottom: "12px" }}>
-              <a
-                href="#"
-                style={{
-                  textDecoration: "none",
-                  color: "#2d6a4f",
-                  fontSize: "18px",
-                  fontWeight: "500",
-                  transition: "color 0.2s, transform 0.2s",
-                  display: "inline-block",
-                }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.color = "#1b4332";
-                  e.currentTarget.style.transform = "translateX(5px)";
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.color = "#2d6a4f";
-                  e.currentTarget.style.transform = "translateX(0)";
-                }}
-              >
-                {link}
-              </a>
+       
+        <div className="footer-section footer-center">
+          <h3>Quick Links</h3>
+          <ul>
+            {["Home", "About", "Menu", "Contact"].map((link) => (
+              <li key={link}>
+                <a href="#">{link}</a>
               </li>
-               ))}
-             </ul>
-                    </div>
+            ))}
+          </ul>
+        </div>
 
-     
-      <div style={{ flex: "1 1 200px", marginBottom: "25px" }}>
-        <h4
-          style={{
-            fontSize: "24px",
-            fontWeight: "700",
-            marginBottom: "15px",
-            position: "relative",
-            display: "inline-block",
-            paddingLeft: "15px",
-          }}
-        >
-          Follow Us
-          <span
-            style={{
-              position: "absolute",
-              left: 0,
-              top: "50%",
-              width: "10px",
-              height: "10px",
-              borderRadius: "50%",
-              background: "#2d6a4f",
-              transform: "translateY(-50%)",
-            }}
-          ></span>
-          <span
-            style={{
-              position: "absolute",
-              left: "-30px",
-              top: "50%",
-              width: "20px",
-              height: "2px",
-              background: "#2d6a4f",
-              borderRadius: "2px",
-              transform: "translateY(-50%)",
-            }}
-          ></span>
-        </h4>
-        <div style={{ display: "flex", gap: "25px", marginTop: "10px" }}>
-          <a
-            href="#"
-            style={{
-              color: "#2d6a4f",
-              fontSize: "28px",
-              transition: "color 0.2s, transform 0.2s",
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.color = "#1b4332";
-              e.currentTarget.style.transform = "scale(1.2)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.color = "#2d6a4f";
-              e.currentTarget.style.transform = "scale(1)";
-            }}
-          >
-            <FaFacebookF />
-          </a>
-          <a
-            href="#"
-            style={{
-              color: "#2d6a4f",
-              fontSize: "28px",
-              transition: "color 0.2s, transform 0.2s",
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.color = "#1b4332";
-              e.currentTarget.style.transform = "scale(1.2)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.color = "#2d6a4f";
-              e.currentTarget.style.transform = "scale(1)";
-            }}
-          >
-            <FaInstagram />
-          </a>
-          <a
-            href="#"
-            style={{
-              color: "#2d6a4f",
-              fontSize: "28px",
-              transition: "color 0.2s, transform 0.2s",
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.color = "#1b4332";
-              e.currentTarget.style.transform = "scale(1.2)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.color = "#2d6a4f";
-              e.currentTarget.style.transform = "scale(1)";
-            }}
-          >
-            <SiX />
-          </a>
+       
+        <div className="footer-section footer-right">
+          <h3>Follow Us</h3>
+          <div className="social-icons">
+            {[<FaFacebookF />, <FaInstagram />, <SiX />].map((Icon, i) => (
+              <a key={i} href="#">{Icon}</a>
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* Bottom */}
+      <div className="footer-bottom">
+        © {new Date().getFullYear()} Foodian. All rights reserved.
+      </div>
+
+      <style>{`
+        .footer-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: flex-start; /* align left, we use gap to separate sections */
+          flex-wrap: wrap;
+          gap: 100px; /* big horizontal gap between left, center, right on large screens */
+          padding: 50px 30px 30px;
+        }
+
+        .footer-section {
+          flex: 1 1 auto;
+          min-width: 220px;
+        }
+
+        /* Left Section */
+        .footer-left p {
+          font-size: 16px;
+          line-height: 1.8;
+          max-width: 400px;
+          margin-top: 12px;
+        }
+
+        .footer-logo {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+
+        .footer-logo img {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+
+        .footer-logo h2 {
+          font-size: 28px;
+          font-weight: 700;
+          margin: 0;
+        }
+
+        /* Center Section */
+        .footer-center h3 {
+          font-size: 18px;
+          font-weight: 700;
+          margin-bottom: 16px;
+        }
+
+        .footer-center ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+
+        .footer-center ul li {
+          margin-bottom: 12px;
+        }
+
+        .footer-center ul li a {
+          text-decoration: none;
+          color: ${textColor};
+          font-size: 16px;
+          font-weight: 500;
+          transition: color 0.2s;
+        }
+
+        .footer-center ul li a:hover {
+          color: ${accentColor};
+        }
+
+        /* Right Section */
+        .footer-right h3 {
+          font-size: 18px;
+          font-weight: 700;
+          margin-bottom: 16px;
+        }
+
+        .social-icons {
+          display: flex;
+          gap: 20px;
+        }
+
+        .social-icons a {
+          color: ${textColor};
+          font-size: 22px;
+          transition: color 0.2s, transform 0.2s;
+        }
+
+        .social-icons a:hover {
+          color: ${accentColor};
+          transform: scale(1.3);
+        }
+
+        /* Bottom */
+        .footer-bottom {
+          text-align: center;
+          margin-top: 30px;
+          font-size: 15px;
+          color: ${textColor};
+          border-top: 1px solid ${darkMode ? "#5a443a" : "#e0dcd4"};
+          padding-top: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+          .footer-container {
+            gap: 50px; /* still maintain decent gap */
+          }
+
+          .footer-left p {
+            max-width: 350px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .footer-container {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 30px;
+          }
+
+          .social-icons {
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .footer-container {
+            padding: 35px 15px 15px;
+          }
+
+          .footer-section p,
+          .footer-center ul li a {
+            font-size: 14px;
+          }
+
+          .footer-left p {
+            max-width: 100%;
+          }
+
+          .footer-section h3 {
+            font-size: 16px;
+          }
+
+          .social-icons a {
+            font-size: 26px;
+          }
+        }
+      `}</style>
     </footer>
   );
 }

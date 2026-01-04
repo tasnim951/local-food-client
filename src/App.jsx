@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { RouterProvider, createBrowserRouter, Outlet } from "react-router";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
@@ -13,73 +13,50 @@ import MyReviews from "./pages/MyReviews";
 import AllReviews from "./pages/AllReviews";
 import MyFavorites from "./pages/MyFavorites";
 import NotFound from "./pages/NotFound";
-import ReviewCard from "./components/ReviewCard";
 import EditReview from "./pages/EditReview"; 
 
-function Layout() {
-  return (
-    <div
-      style={{
-        background: "linear-gradient(90deg, #6fcf97 0%, #ffffff 100%)",
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <Navbar />
-      <main
-        style={{
-          flex: 1,
-          paddingBottom: "60px",
-          marginTop: "60px",
-          minHeight: "calc(100vh - 120px)",
-        }}
-      >
-        <Outlet />
-      </main>
-      <Footer />
-    </div>
-  );
-}
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
-      { path: "/add-review", element: <AddReview /> },
-      { path: "/my-reviews", element: <MyReviews /> },
-      { path: "/allreviews", element: <AllReviews /> },
-      { path: "/my-favorites", element: <MyFavorites /> },
-      { path: "/review-card", element: <ReviewCard /> },
-
-      { path: "/edit-review/:id", element: <EditReview /> },  
-
-      { path: "*", element: <NotFound /> },
-    ],
-  },
-]);
-
 export default function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    document.body.style.backgroundColor = darkMode ? "#3B2F2F" : "#FDF6F0";
+    document.body.style.color = darkMode ? "#FDF6F0" : "#3B2F2F";
+  }, [darkMode]);
+
+  function Layout() {
+    return (
+      <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+        <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
+        <main style={{ flex: 1, marginTop: "60px", paddingBottom: "60px", minHeight: "calc(100vh - 120px)" }}>
+          <Outlet />
+        </main>
+        <Footer darkMode={darkMode} />
+      </div>
+    );
+  }
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        { index: true, element: <Home darkMode={darkMode} /> },
+        { path: "/login", element: <Login darkMode={darkMode} /> },
+        { path: "/register", element: <Register darkMode={darkMode} /> },
+        { path: "/add-review", element: <AddReview darkMode={darkMode} /> },
+        { path: "/my-reviews", element: <MyReviews darkMode={darkMode} /> },
+        { path: "/allreviews", element: <AllReviews darkMode={darkMode} /> },
+        { path: "/my-favorites", element: <MyFavorites darkMode={darkMode} /> },
+        { path: "/edit-review/:id", element: <EditReview darkMode={darkMode} /> },
+        { path: "*", element: <NotFound darkMode={darkMode} /> },
+      ],
+    },
+  ]);
+
   return (
     <>
       <RouterProvider router={router} />
-
-      {/* Toast container for notifications */}
-      <ToastContainer
-        position="top-center"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-      />
-    </>
-  );
+      <ToastContainer position="top-center" autoClose={4000} hideProgressBar={false} newestOnTop={false} closeOnClick pauseOnFocusLoss draggable pauseOnHover theme="colored" />
+    </>
+  );
 }

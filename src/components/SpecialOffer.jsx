@@ -1,72 +1,56 @@
-import special1 from "../assets/special-1.jpg";
+import React, { useContext } from "react";
+import special1 from "../assets/special-1.jpg"; 
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 export default function SpecialOffer() {
+  const { darkMode } = useContext(ThemeContext);
+
+  const bgColor = darkMode ? "#3B2F2F" : "#FDF6F0";
+  const textColor = darkMode ? "#FFFFFF" : "#2d2d2d";
+  const accentColor = darkMode ? "#8B5E3C" : "#8B5E3C";
+  const buttonBg = darkMode ? "#8B5E3C" : "#8B5E3C";
+  const buttonHover = darkMode ? "#6F4E37" : "#6F4E37";
+
   return (
     <section
       className="special-offer"
       style={{
-        background: "linear-gradient(90deg, #c1e1c1 0%, #e8f5e9 100%)",
-        padding: "60px 40px",
+        background: bgColor,
+        padding: "40px 30px",
+        maxWidth: "1400px",
+        margin: "50px auto",
+        borderRadius: "25px",
         display: "flex",
-        justifyContent: "space-between",
         alignItems: "center",
-        maxWidth: "1200px",
-        margin: "0 auto",
+        justifyContent: "center",
+        flexWrap: "wrap",
+        gap: "30px", 
         boxSizing: "border-box",
-        position: "relative",
-        color: "#2d6a4f",
-        flexWrap: "wrap", 
+        boxShadow: darkMode ? "0 10px 50px rgba(0,0,0,0.4)" : "0 10px 30px rgba(0,0,0,0.15)",
       }}
     >
-    
-      <div style={{ flex: 1, paddingRight: "40px", minWidth: "280px" }}>
+      {/* Text */}
+      <div style={{ flex: "1 1 auto", minWidth: "280px", maxWidth: "650px" }}>
         <p
           style={{
             textTransform: "uppercase",
             fontWeight: "700",
             fontSize: "14px",
-            letterSpacing: "3px",
-            marginBottom: "15px",
-            position: "relative",
-            display: "inline-block",
-            paddingLeft: "25px",
+            letterSpacing: "2px",
+            marginBottom: "10px",
+            color: accentColor,
           }}
         >
-          TODAY'S SPECIAL OFFER
-          <span
-            style={{
-              position: "absolute",
-              left: 0,
-              top: "50%",
-              width: "10px",
-              height: "10px",
-              borderRadius: "50%",
-              background: "#2d6a4f",
-              transform: "translateY(-50%)",
-            }}
-          ></span>
-          <span
-            style={{
-              position: "absolute",
-              left: "-35px",
-              top: "50%",
-              width: "30px",
-              height: "2px",
-              background: "#2d6a4f",
-              borderRadius: "2px",
-              transform: "translateY(-50%)",
-            }}
-          ></span>
+          Today's Special Offer
         </p>
 
-            <h2
-             style={{
-            fontSize: "3.8rem",
+        <h2
+          style={{
+            fontSize: "2.8rem",
             fontWeight: "900",
-            margin: "0 0 20px",
-            fontFamily: "'Poppins', sans-serif",
+            margin: "0 0 15px",
             lineHeight: 1.1,
-            color: "#14532d",
+            color: textColor,
           }}
         >
           Delicious <br /> Saucy Chicken Wings
@@ -74,69 +58,55 @@ export default function SpecialOffer() {
 
         <p
           style={{
-            fontSize: "1.4rem",
-            lineHeight: "1.5",
-            marginBottom: "25px",
+            fontSize: "1.2rem",
+            lineHeight: "1.4",
+            marginBottom: "20px",
+            color: textColor,
           }}
         >
           Deshi masala style • extra saucy • spicy flavour punch
         </p>
 
-          
-           <div
-         
-         style={{
+        <div
+          className="discount-btn"
+          style={{
             display: "inline-block",
-            backgroundColor: "#27613cff",
-            padding: "16px 40px",
+            backgroundColor: buttonBg,
+            padding: "12px 28px",
             borderRadius: "35px",
-            fontWeight: "800",
-            fontSize: "1.3rem",
+            fontWeight: "700",
+            fontSize: "1rem",
             color: "#fff",
-            boxShadow: "0 6px 15px rgba(34, 197, 94, 0.6)",
             cursor: "pointer",
-            transition: "background-color 0.3s ease, transform 0.3s ease",
+            transition: "0.3s",
           }}
-            
           onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#4a775aff";
+            e.currentTarget.style.backgroundColor = buttonHover;
             e.currentTarget.style.transform = "scale(1.05)";
-            e.currentTarget.style.boxShadow =
-              "0 6px 15px rgba(178, 212, 189, 0.6)";
           }}
-         
-         
-             onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "#203f2bff";
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = buttonBg;
             e.currentTarget.style.transform = "scale(1)";
-            e.currentTarget.style.boxShadow =
-              "0 6px 15px rgba(57, 66, 60, 0.6)";
           }}
         >
           40% DISCOUNT
         </div>
       </div>
 
-     
+      {/* Image */}
       <div
-           
-           style={{
-          width: "340px",
-          height: "340px",
+        style={{
+          flex: "0 0 350px", 
+          height: "350px",
           borderRadius: "50%",
           overflow: "hidden",
-          boxShadow: "0 10px 50px rgba(0,0,0,0.1)",
-          userSelect: "none",
-          pointerEvents: "none",
-          border: "5px solid #2d6a4f",
-          flexShrink: 0,
-          margin: "0 auto",
+          border: `5px solid ${accentColor}`,
+          boxShadow: darkMode ? "0 8px 30px rgba(0,0,0,0.4)" : "0 8px 20px rgba(0,0,0,0.15)",
         }}
       >
         <img
-          
           src={special1}
-            alt="Saucy Chicken Wings"
+          alt="Saucy Chicken Wings"
           style={{
             width: "100%",
             height: "100%",
@@ -146,40 +116,36 @@ export default function SpecialOffer() {
         />
       </div>
 
-      
-      <style>
-        {`
-          @media (max-width: 768px) {
-            .special-offer {
-              flex-direction: column;
-              padding: 40px 20px;
-            }
+      {/* Responsive */}
+      <style>{`
+       @media (max-width: 1024px) {
+  .special-offer {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+    padding: 30px 20px;
+  }
+  .special-offer > div:first-child {
+    max-width: 100%;
+    padding-right: 0;
+  }
+  .special-offer > div:last-child {
+    width: 250px !important;
+    height: 250px !important; 
+    margin-top: 10px;
+    border-radius: 50%;          
+  }
+}
 
-      .special-offer > div:first-child {
-              padding-right: 0;
-              text-align: center;
-            }
+@media (max-width: 480px) {
+  .special-offer > div:last-child {
+    width: 180px !important;
+    height: 180px !important;  
+    border-radius: 50%;          
+  }
+}
 
-             .special-offer > div:last-child {
-              width: 200px !important;
-              height: 200px !important;
-              margin-top: 30px;
-            }
-
-       .special-offer > div:last-child img {
-              border-radius: 50%;
-            }
-
-            .special-offer h2 {
-              font-size: 2.5rem;
-            }
-
-            .special-offer p {
-              font-size: 1.2rem;
-            }
-          }
-        `}
-      </style>
+      `}</style>
     </section>
   );
 }

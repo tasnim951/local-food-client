@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../contexts/AuthProvider';  
+import { ThemeContext } from '../contexts/ThemeProvider'; 
 import { toast } from 'react-toastify';
 
 export default function MyFavorites() {
   const { user } = useContext(AuthContext);
+  const { darkMode } = useContext(ThemeContext);
   const [favorites, setFavorites] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -48,24 +50,31 @@ export default function MyFavorites() {
   if (!user) {
     return (
       <p
-       style={{ textAlign: 'center',
-        marginTop: '100px', 
-        fontSize: '18px' }}>
-
+        style={{
+          textAlign: 'center',
+          marginTop: '100px',
+          fontSize: '18px',
+          color: darkMode ? '#ffffff' : '#3B2F2F',
+        }}
+      >
         Please <a href="/login">login</a> to view your favorites.
       </p>
     );
   }
 
   if (loading) {
-    return <p style={{ textAlign: 'center',
-         marginTop: '50px' }}>Loading your favorites...</p>;
+    return <p style={{ textAlign: 'center', marginTop: '50px', color: darkMode ? '#ffffff' : '#3B2F2F' }}>Loading your favorites...</p>;
   }
 
   if (favorites.length === 0) {
-    return <p style={{ textAlign: 'center',
-         marginTop: '50px' }}>You have no favorite reviews yet.</p>;
+    return <p style={{ textAlign: 'center', marginTop: '50px', color: darkMode ? '#ffffff' : '#3B2F2F' }}>You have no favorite reviews yet.</p>;
   }
+
+  const bgSection = darkMode ? '#3B2F2F' : '#FDF6F0';
+  const textColor = darkMode ? '#ffffff' : '#3B2F2F';
+  const cardBg = darkMode ? '#5C4033' : '#fff';
+  const buttonBg = '#8B5E3C';
+  const buttonHover = '#A67C52';
 
   return (
     <section
@@ -73,8 +82,8 @@ export default function MyFavorites() {
         padding: '40px 20px',
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         minHeight: '100vh',
-        backgroundColor: '#f9f9f9',
-        color: '#333',
+        backgroundColor: bgSection,
+        color: textColor,
       }}
     >
       <h2
@@ -83,7 +92,7 @@ export default function MyFavorites() {
           marginBottom: '40px',
           fontWeight: '700',
           fontSize: '2.8rem',
-          color: '#365849ff',
+          color: darkMode ? '#ffffff' : '#8B5E3C',
           fontFamily: "'Poppins', sans-serif",
         }}
       >
@@ -93,7 +102,7 @@ export default function MyFavorites() {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '20px',
           maxWidth: '1200px',
           margin: '0 auto',
@@ -105,9 +114,11 @@ export default function MyFavorites() {
             <div
               key={fav._id}
               style={{
-                backgroundColor: '#fff',
+                backgroundColor: cardBg,
                 borderRadius: '15px',
-                boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+                boxShadow: darkMode
+                  ? '0 4px 12px rgba(0,0,0,0.5)'
+                  : '0 4px 12px rgba(0,0,0,0.1)',
                 overflow: 'hidden',
                 display: 'flex',
                 flexDirection: 'column',
@@ -122,46 +133,37 @@ export default function MyFavorites() {
                   objectFit: 'cover',
                 }}
               />
-              <div 
-              style={{ padding: '20px' }}>
-                <h3 
-                style={{ margin: '0 0 10px 0', color: '#2d6a4f', fontSize: '1.8rem' }}>
+              <div style={{ padding: '20px', color: textColor }}>
+                <h3
+                  style={{
+                    margin: '0 0 10px 0',
+                    color: darkMode ? '#ffffff' : '#8B5E3C',
+                    fontSize: '1.8rem',
+                  }}
+                >
                   {review.foodName || 'Unknown Food'}
                 </h3>
 
-                <p style={{ margin: '0 0 8px 0', fontWeight: '600', color: '#386641', fontSize: '1.2rem' }}>
+                <p style={{ margin: '0 0 8px 0', fontWeight: '600', fontSize: '1.2rem' }}>
                   {review.restaurantName || 'Unknown Restaurant'}
                 </p>
 
-                <p 
-                
-                style={{ margin: '0 0 12px 0',
-                 color: '#52796f',
-                  fontStyle: 'italic',
-                  fontSize: '1rem' }}>
+                <p style={{ margin: '0 0 12px 0', fontStyle: 'italic', fontSize: '1rem', opacity: 0.8 }}>
                   Favorited on {new Date(fav.favoritedAt).toLocaleDateString()}
                 </p>
 
-                <p 
-                style={{ margin: '0 0 8px 0', 
-                fontWeight: '600', 
-                color: '#386641',
-                 fontSize: '1.2rem' }}>
+                <p style={{ margin: '0 0 8px 0', fontWeight: '600', fontSize: '1.2rem' }}>
                   Reviewer: {review.reviewerName || 'Unknown Reviewer'}
                 </p>
 
-                <p 
-                style={{ margin: '0 0 12px 0',
-                 color: '#52796f', 
-                 fontStyle: 'italic', 
-                 fontSize: '1rem' }}>
+                <p style={{ margin: '0 0 12px 0', fontStyle: 'italic', fontSize: '1rem', opacity: 0.8 }}>
                   Reviewed on: {review.reviewDate ? new Date(review.reviewDate).toLocaleDateString() : 'Date not available'}
                 </p>
 
                 <button
                   onClick={() => handleRemoveFavorite(fav._id)}
                   style={{
-                    backgroundColor: '#e63946',
+                    backgroundColor: buttonBg,
                     color: 'white',
                     border: 'none',
                     padding: '12px 24px',
@@ -172,8 +174,8 @@ export default function MyFavorites() {
                     marginTop: '20px',
                     transition: 'background-color 0.3s',
                   }}
-                  onMouseOver={e => (e.currentTarget.style.backgroundColor = '#b32d37')}
-                  onMouseOut={e => (e.currentTarget.style.backgroundColor = '#e63946')}
+                  onMouseOver={(e) => (e.currentTarget.style.backgroundColor = buttonHover)}
+                  onMouseOut={(e) => (e.currentTarget.style.backgroundColor = buttonBg)}
                 >
                   Remove Favorite
                 </button>
@@ -182,6 +184,15 @@ export default function MyFavorites() {
           );
         })}
       </div>
+
+      {/* Responsive tweaks */}
+      <style>{`
+        @media (max-width: 600px) {
+          section h2 {
+            font-size: 2rem !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

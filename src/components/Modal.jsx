@@ -1,7 +1,35 @@
-import React from "react";
+import React, { useContext } from "react";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 export default function Modal({ modalData, closeModal }) {
+  const { darkMode } = useContext(ThemeContext);
+
   if (!modalData) return null;
+
+  /* ===== COFFEE THEME COLORS ===== */
+  const colors = darkMode
+    ? {
+        overlay: "rgba(0,0,0,0.6)",
+        bg: "#2a1a12",       
+        text: "#f5ede6",     
+        heading: "#FFFFFF",  
+        subText: "#d7c2b2",
+        accent: "#8b5e3c",
+        accentShadow: "0 0 5px #6f4e37",
+        closeBtnBg: "#8b5e3c",
+        closeBtnColor: "#fff",
+      }
+    : {
+        overlay: "rgba(45, 106, 79, 0.35)",
+        bg: "#ffffff",        // light card background
+        text: "#3B2F2F",
+        heading: "#3B2F2F",
+        subText: "#6B4A3A",
+        accent: "#8b5e3c",
+        accentShadow: "0 0 5px #6f4e37",
+        closeBtnBg: "#8b5e3c",
+        closeBtnColor: "#fff",
+      };
 
   return (
     <div
@@ -9,7 +37,7 @@ export default function Modal({ modalData, closeModal }) {
       style={{
         position: "fixed",
         inset: 0,
-        backgroundColor: "rgba(45, 106, 79, 0.6)",
+        backgroundColor: colors.overlay,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -21,27 +49,29 @@ export default function Modal({ modalData, closeModal }) {
       <div
         onClick={(e) => e.stopPropagation()}
         style={{
-          background: "linear-gradient(135deg, #e6f0e9 0%, #ffffff 100%)",
+          background: colors.bg,
           borderRadius: "15px",
           padding: "20px",
           width: "100%",
           maxWidth: "450px",
-          boxShadow: "0 8px 20px rgba(45, 106, 79, 0.35)",
+          boxShadow: `0 8px 20px rgba(0,0,0,0.3)`,
           fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-          color: "#2d6a4f",
+          color: colors.text,
           position: "relative",
           textAlign: "center",
           userSelect: "none",
+          transition: "background 0.3s, color 0.3s",
         }}
       >
+        {/* CLOSE BUTTON */}
         <button
           onClick={closeModal}
           style={{
             position: "absolute",
             top: "12px",
             right: "12px",
-            background: "#2d6a4f",
-            color: "white",
+            background: colors.closeBtnBg,
+            color: colors.closeBtnColor,
             border: "none",
             borderRadius: "50%",
             width: "28px",
@@ -54,7 +84,7 @@ export default function Modal({ modalData, closeModal }) {
           }}
           aria-label="Close modal"
         >
-               x
+          x
         </button>
 
         <img
@@ -66,7 +96,7 @@ export default function Modal({ modalData, closeModal }) {
             objectFit: "cover",
             borderRadius: "10px",
             marginBottom: "12px",
-            boxShadow: "0 3px 10px rgba(45, 106, 79, 0.3)",
+            boxShadow: `0 3px 10px ${colors.accentShadow}`,
           }}
         />
 
@@ -76,6 +106,7 @@ export default function Modal({ modalData, closeModal }) {
             fontWeight: "700",
             fontSize: "1.6rem",
             marginBottom: "12px",
+            color: colors.heading,
             position: "relative",
             paddingLeft: "40px",
             display: "inline-block",
@@ -90,9 +121,9 @@ export default function Modal({ modalData, closeModal }) {
               width: "10px",
               height: "10px",
               borderRadius: "50%",
-              background: "#2d6a4f",
+              background: colors.accent,
               transform: "translateY(-50%)",
-              boxShadow: "0 0 5px #95d5b2",
+              boxShadow: colors.accentShadow,
             }}
           ></span>
           <span
@@ -102,14 +133,15 @@ export default function Modal({ modalData, closeModal }) {
               top: "50%",
               width: "25px",
               height: "2.5px",
-              background: "#2d6a4f",
+              background: colors.accent,
               borderRadius: "2px",
               transform: "translateY(-50%)",
-              boxShadow: "0 0 7px #95d5b2",
+              boxShadow: colors.accentShadow,
             }}
           ></span>
         </h2>
 
+        {/* DESCRIPTION */}
         <div
           style={{
             marginBottom: "15px",
@@ -118,14 +150,12 @@ export default function Modal({ modalData, closeModal }) {
             padding: "0 5px",
           }}
         >
-         
-         
           <h3
             style={{
               fontWeight: "700",
               marginBottom: "8px",
-              color: "#2d6a4f",
-              borderBottom: "1.5px solid #2d6a4f",
+              color: colors.accent,
+              borderBottom: `1.5px solid ${colors.accent}`,
               display: "inline-block",
               paddingBottom: "3px",
             }}
@@ -135,13 +165,14 @@ export default function Modal({ modalData, closeModal }) {
           <p>{modalData.description}</p>
         </div>
 
+        {/* CONTACT INFO */}
         <div style={{ padding: "0 5px" }}>
           <h3
             style={{
               fontWeight: "700",
               marginBottom: "8px",
-              color: "#2d6a4f",
-              borderBottom: "1.5px solid #2d6a4f",
+              color: colors.accent,
+              borderBottom: `1.5px solid ${colors.accent}`,
               display: "inline-block",
               paddingBottom: "3px",
             }}
@@ -152,7 +183,7 @@ export default function Modal({ modalData, closeModal }) {
             Contact:{" "}
             <a
               href={`tel:${modalData.contact.phone}`}
-              style={{ color: "#1b4332", textDecoration: "none" }}
+              style={{ color: colors.subText, textDecoration: "none" }}
             >
               {modalData.contact.phone}
             </a>
@@ -161,15 +192,14 @@ export default function Modal({ modalData, closeModal }) {
             E-mail:{" "}
             <a
               href={`mailto:${modalData.contact.email}`}
-              style={{ color: "#1b4332", textDecoration: "none" }}
+              style={{ color: colors.subText, textDecoration: "none" }}
             >
               {modalData.contact.email}
             </a>
           </p>
         </div>
 
-       
-          <style>
+        <style>
           {`
             @media (max-width: 500px) {
               div[style*="maxWidth: 450px"] {

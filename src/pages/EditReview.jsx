@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
 import { toast } from "react-toastify";
+import { ThemeContext } from "../contexts/ThemeProvider";
 
 export default function EditReview() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { darkMode } = useContext(ThemeContext);
+
   const [review, setReview] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchReview = async () => {
       try {
-        const res = await fetch(`https://local-food-server-rouge.vercel.app/reviews/${id}`);
+        const res = await fetch(
+          `https://local-food-server-rouge.vercel.app/reviews/${id}`
+        );
         if (!res.ok) throw new Error("Failed to fetch review.");
         const data = await res.json();
         setReview(data);
@@ -31,167 +36,185 @@ export default function EditReview() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const res = await fetch(`https://local-food-server-rouge.vercel.app/reviews/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(review),
-      });
+      const res = await fetch(
+        `https://local-food-server-rouge.vercel.app/reviews/${id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(review),
+        }
+      );
 
-      const data = await res.json(); 
-
-      if (!res.ok) throw new Error(data.message || "Failed to update review.");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Update failed");
 
       toast.success("Review updated successfully!");
-
-    
-      setTimeout(() => {
-        navigate("/my-reviews");
-      }, 500);
-
+      setTimeout(() => navigate("/my-reviews"), 500);
     } catch (error) {
       toast.error(error.message);
     }
   };
 
+  const colors = {
+    pageBg: darkMode ? "#3B2F2F" : "#FDF6F0",
+    cardBg: darkMode ? "#5C4033" : "#FFFFFF",
+    text: darkMode ? "#FDF6F0" : "#3B2F2F",
+    inputBg: darkMode ? "#3B2F2F" : "#FFFFFF",
+    border: "#D6C7B8",
+    accent: "#8B5E3C",
+  };
+
   if (loading) {
-    return <p 
-    style={{ textAlign: "center",
-        
-    marginTop: "100px" }}>
-        Loading...</p>;
+    return (
+      <p style={{ textAlign: "center", marginTop: 100, color: colors.text }}>
+        Loading...
+      </p>
+    );
   }
 
   if (!review) {
-    return <p
-     style={{ textAlign: "center",
-         marginTop: "100px" }}>
-            Review not found.</p>;
+    return (
+      <p style={{ textAlign: "center", marginTop: 100, color: colors.text }}>
+        Review not found.
+      </p>
+    );
   }
 
   return (
-    <div 
-    style={{ maxWidth: "600px",
-     margin: "40px auto",
-      padding: "20px" }}>
+    <section
+      style={{
+        minHeight: "100vh",
+        background: colors.pageBg,
+        padding: "40px 20px",
+      }}
+    >
+      <div
+        style={{
+          maxWidth: 600,
+          margin: "0 auto",
+          background: colors.cardBg,
+          padding: "30px 25px",
+          borderRadius: 16,
+          boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
+        }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            marginBottom: 25,
+            color: colors.text,
+            fontSize: "2.2rem",
+          }}
+        >
+          Edit Review
+        </h2>
 
-      <h2
-       style={{ textAlign: "center", color: "#2d6a4f" }}>Edit Review</h2>
-      <form 
-      onSubmit={handleSubmit} style={formStyle}>
-        <label
-         style={labelStyle}>Food Name</label>
-        <input
-          type="text"
-          name="foodName"
-          value={review.foodName || ""}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
+        <form onSubmit={handleSubmit} style={{ display: "flex", gap: 14, flexDirection: "column" }}>
+          {[
+            { label: "Food Name", name: "foodName" },
+            { label: "Restaurant Name", name: "restaurantName" },
+            { label: "Food Image URL", name: "foodImage" },
+            { label: "Location", name: "location" },
+          ].map((field) => (
+            <div key={field.name}>
+              <label style={{ color: colors.text, fontWeight: 600 }}>
+                {field.label}
+              </label>
+              <input
+                type="text"
+                name={field.name}
+                value={review[field.name] || ""}
+                onChange={handleChange}
+                required
+                style={{
+                  ...inputStyle,
+                  background: colors.inputBg,
+                  color: colors.text,
+                  border: `1px solid ${colors.border}`,
+                }}
+              />
+            </div>
+          ))}
 
-        <label 
-        style={labelStyle}>Restaurant Name</label>
-       
-        <input
-          type="text"
-          name="restaurantName"
-          value={review.restaurantName || ""}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
+          <div>
+            <label style={{ color: colors.text, fontWeight: 600 }}>
+              Star Rating
+            </label>
+            <input
+              type="number"
+              name="starRating"
+              min="1"
+              max="5"
+              value={review.starRating || ""}
+              onChange={handleChange}
+              required
+              style={{
+                ...inputStyle,
+                background: colors.inputBg,
+                color: colors.text,
+                border: `1px solid ${colors.border}`,
+              }}
+            />
+          </div>
 
-        <label
-         style={labelStyle}>Food Image URL</label>
-        
-         <input
-          type="text"
-          name="foodImage"
-          value={review.foodImage || ""}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
+          <div>
+            <label style={{ color: colors.text, fontWeight: 600 }}>
+              Your Review
+            </label>
+            <textarea
+              name="reviewText"
+              value={review.reviewText || ""}
+              onChange={handleChange}
+              required
+              style={{
+                ...textareaStyle,
+                background: colors.inputBg,
+                color: colors.text,
+                border: `1px solid ${colors.border}`,
+              }}
+            />
+          </div>
 
-        <label 
-        
-        style={labelStyle}>
-            Location</label>
-        <input
-          type="text"
-          name="location"
-          value={review.location || ""}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
-        <label  
-        
-        style={labelStyle}>Star Rating</label>
-         
-         <input
-          type="number"
-          name="starRating"
-          min="1"
-          max="5"
-          value={review.starRating || ""}
-          onChange={handleChange}
-          style={inputStyle}
-          required
-        />
-
-        <label style={labelStyle}>Your Review</label>
-        <textarea
-          name="reviewText"
-          value={review.reviewText || ""}
-          onChange={handleChange}
-          style={textareaStyle}
-          required
-        />
-
-        <button type="submit" style={buttonStyle}>
-          Update Review
-        </button>
-      </form>
-    </div>
+          <button
+            type="submit"
+            style={{
+              background: colors.accent,
+              color: "#fff",
+              border: "none",
+              padding: "12px",
+              borderRadius: 30,
+              fontSize: "1rem",
+              fontWeight: 600,
+              cursor: "pointer",
+              marginTop: 10,
+            }}
+          >
+            Update Review
+          </button>
+        </form>
+      </div>
+    </section>
   );
 }
 
-
-           const formStyle = {
-                         display: "flex",
-                      flexDirection: "column",
-                        gap: "12px",
-                             marginTop: "20px",
+/* ---------- shared styles ---------- */
+const inputStyle = {
+  width: "100%",
+  padding: "12px 14px",
+  borderRadius: 10,
+  fontSize: "1rem",
+  outline: "none",
+  boxSizing: "border-box",   
 };
 
-           const labelStyle = {
-                         fontWeight: "bold",
-                 color: "#2d6a4f",
-           };
+const textareaStyle = {
+  width: "100%",
+  padding: "12px 14px",
+  borderRadius: 10,
+  minHeight: 110,
+  resize: "none",
+  fontSize: "1rem",
+  boxSizing: "border-box",   
+};
 
-                    const inputStyle = {
-                               padding: "10px",
-                         border: "1px solid #ccc",
-                           borderRadius: "8px",
-          };
-
-        const textareaStyle = {
-         padding: "10px",
-          border: "1px solid #ccc",
-     borderRadius: "8px",
-      minHeight: "100px",
-      };
-
-                const buttonStyle = {
-          backgroundColor: "#2d6a4f",
-                color: "white",
-                border: "none",
-                padding: "10px",
-               borderRadius: "8px",
-                 cursor: "pointer",
-           marginTop: "10px",
-           };
