@@ -15,187 +15,291 @@ export default function Navbar() {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
+    const close = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setDropdownOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", close);
+    return () => document.removeEventListener("mousedown", close);
   }, []);
 
-  /* ===== THEME COLORS ===== */
   const bgColor = darkMode ? "#4B3621" : "#FDF6F0";
   const textColor = darkMode ? "#FFFFFF" : "#3B2F2F";
   const logoTextColor = darkMode ? "#FDF6F0" : "#8B5E3C";
-  const hoverBg = darkMode
-    ? "rgba(255,255,255,0.08)"
-    : "rgba(139,94,60,0.15)";
 
   return (
-    <nav
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 1000,
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "14px 32px",
-        backgroundColor: bgColor,
-        color: textColor,
-        boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-        fontFamily: "'Poppins', sans-serif",
-      }}
-    >
-      {/* LOGO */}
-      <Link to="/" style={{ textDecoration: "none" }}>
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "4px",
-            fontFamily: "'Fredoka One', cursive",
-            cursor: "pointer",
-          }}
-        >
-          <span style={{ fontSize: "42px", color: logoTextColor }}>F</span>
-          <img src={logo} alt="O1" style={logoStyle} />
-          <img src={logo} alt="O2" style={logoStyle} />
-          <span style={{ fontSize: "42px", color: logoTextColor }}>DIAN</span>
+    <nav style={{ position: "sticky", top: 0, zIndex: 1000, background: bgColor }}>
+      {/* TOP BAR */}
+      <div className="top-bar">
+        {/* LOGO */}
+        <Link to="/" className="logo">
+          <span style={{ color: logoTextColor }}>F</span>
+          <img src={logo} alt="logo" />
+          <img src={logo} alt="logo" />
+          <span style={{ color: logoTextColor }}>DIAN</span>
+        </Link>
+
+        {/* HAMBURGER */}
+        <div className="hamburger" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          ☰
         </div>
-      </Link>
 
-      {/* HAMBURGER */}
-      <div
-        className="hamburger"
-        onClick={() => setMobileMenuOpen((p) => !p)}
-        style={{
-          fontSize: "28px",
-          cursor: "pointer",
-          display: "none",
-          color: textColor,
-        }}
-      >
-        ☰
+        {/* DESKTOP NAV */}
+        <div className="nav-links">
+          <Link to="/">Home</Link>
+          <Link to="/allreviews">Explore</Link>
+
+          {!user && (
+            <>
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </>
+          )}
+
+          {user && (
+            <div className="avatar-wrapper" ref={dropdownRef}>
+              <img
+                src={user.photoURL || defaultAvatar}
+                alt="avatar"
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+              />
+
+              {dropdownOpen && (
+                <div className="dropdown-menu">
+                  <Link to="/add-review">Add Review</Link>
+                  <Link to="/my-reviews">My Reviews</Link>
+                  <Link to="/my-favorites">My Favorites</Link>
+                  <div className="divider" />
+                  <button onClick={logout} className="logout">Logout</button>
+                </div>
+              )}
+            </div>
+          )}
+
+          <button className="icon-btn" onClick={toggleDarkMode}>
+            {darkMode ? <FaSun /> : <FaMoon />}
+          </button>
+        </div>
       </div>
 
-      {/* NAV LINKS */}
-      <div className="nav-links" style={{ display: "flex", gap: "20px", alignItems: "center" }}>
-        <Link to="/" style={navLink(textColor)}>Home</Link>
-        <Link to="/allreviews" style={navLink(textColor)}>Explore</Link>
-
-        {!user && (
-          <>
-            <Link to="/login" style={navLink(textColor)}>Login</Link>
-            <Link to="/register" style={navLink(textColor)}>Register</Link>
-          </>
-        )}
-
-        {user && (
-          <div ref={dropdownRef} style={{ position: "relative" }}>
-            <img
-              src={user.photoURL || defaultAvatar}
-              alt="profile"
-              onClick={() => setDropdownOpen((p) => !p)}
-              style={{
-                width: "42px",
-                height: "42px",
-                borderRadius: "50%",
-                cursor: "pointer",
-              }}
-            />
-
-            {dropdownOpen && (
-              <div
-                style={{
-                  position: "absolute",
-                  right: 0,
-                  top: "calc(100% + 10px)",
-                  background: bgColor,
-                  borderRadius: "10px",
-                  width: "180px",
-                  boxShadow: "0 8px 20px rgba(0,0,0,0.2)",
-                }}
-              >
-                <Link to="/add-review" style={dropdownLink(textColor)}>Add Review</Link>
-                <Link to="/my-reviews" style={dropdownLink(textColor)}>My Reviews</Link>
-                <Link to="/my-favorites" style={dropdownLink(textColor)}>My Favorites</Link>
-                <button
-                  onClick={logout}
-                  style={{
-                    ...dropdownLink(textColor),
-                    border: "none",
-                    background: "none",
-                    color: "#e63946",
-                  }}
-                >
-                  Logout
-                </button>
+     
+      {mobileMenuOpen && (
+        <div className="mobile-drawer">
+          {/* USER HEADER */}
+          {user && (
+            <div className="drawer-user">
+              <img src={user.photoURL || defaultAvatar} alt="avatar" />
+              <div>
+                <p className="name">{user.displayName || "User"}</p>
+                <span className="email">{user.email}</span>
               </div>
-            )}
+            </div>
+          )}
+
+          <div className="drawer-section">
+            <Link to="/" onClick={() => setMobileMenuOpen(false)}>Home</Link>
+            <Link to="/allreviews" onClick={() => setMobileMenuOpen(false)}>Explore</Link>
           </div>
-        )}
 
-        {/* THEME TOGGLE */}
-        <button
-          onClick={toggleDarkMode}
-          style={{
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "20px",
-            color: textColor,
-          }}
-          title={darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
-        >
-          {darkMode ? <FaSun /> : <FaMoon />}
-        </button>
-      </div>
+          <div className="drawer-section">
+            <button onClick={toggleDarkMode}>
+              {darkMode ? "☀ Light Mode" : "🌙 Dark Mode"}
+            </button>
+          </div>
 
-      {/* MOBILE MENU */}
+          {!user && (
+            <div className="drawer-section">
+              <Link to="/login">Login</Link>
+              <Link to="/register">Register</Link>
+            </div>
+          )}
+
+          {user && (
+            <div className="drawer-section">
+              <Link to="/add-review">Add Review</Link>
+              <Link to="/my-reviews">My Reviews</Link>
+              <Link to="/my-favorites">My Favorites</Link>
+            </div>
+          )}
+
+          {user && (
+            <div className="drawer-section danger">
+              <button onClick={logout}>Logout</button>
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* STYLES */}
       <style>{`
+        * { transition: all 0.2s ease; }
+
+        .top-bar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 14px 32px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          font-family: 'Poppins', sans-serif;
+        }
+
+        .logo {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          text-decoration: none;
+          font-family: 'Fredoka One', cursive;
+          font-size: 42px;
+        }
+
+        .logo img {
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+        }
+
+        .nav-links {
+          display: flex;
+          align-items: center;
+          gap: 18px;
+        }
+
+        .nav-links a {
+          text-decoration: none;
+          color: ${textColor};
+          font-weight: 600;
+          padding: 8px 14px;
+          border-radius: 6px;
+        }
+
+        .nav-links a:hover {
+          background: rgba(139,94,60,0.15);
+        }
+
+        .hamburger {
+          display: none;
+          font-size: 28px;
+          cursor: pointer;
+          color: ${textColor};
+        }
+
+        .avatar-wrapper { position: relative; }
+
+        .avatar-wrapper img {
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+          cursor: pointer;
+        }
+
+        .dropdown-menu {
+          position: absolute;
+          right: 0;
+          top: 55px;
+          width: 200px;
+          background: ${bgColor};
+          border-radius: 12px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .dropdown-menu a,
+        .dropdown-menu button {
+          padding: 12px 16px;
+          text-align: left;
+          font-size: 15px;
+          background: none;
+          border: none;
+          cursor: pointer;
+          color: ${textColor};
+        }
+
+        .divider {
+          height: 1px;
+          background: rgba(0,0,0,0.1);
+        }
+
+        .logout { color: #e63946; }
+
+        .icon-btn {
+          background: none;
+          border: none;
+          font-size: 20px;
+          cursor: pointer;
+          color: ${textColor};
+        }
+
+        /* 🔥 MOBILE DRAWER */
+        .mobile-drawer {
+          background: ${bgColor};
+          box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+          padding: 12px 0;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .drawer-user {
+          display: flex;
+          gap: 12px;
+          padding: 16px;
+          border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .drawer-user img {
+          width: 52px;
+          height: 52px;
+          border-radius: 50%;
+        }
+
+        .drawer-user .name {
+          font-weight: 600;
+          color: ${textColor};
+        }
+
+        .drawer-user .email {
+          font-size: 13px;
+          opacity: 0.7;
+        }
+
+        .drawer-section {
+          display: flex;
+          flex-direction: column;
+          padding: 8px 0;
+        }
+
+        .drawer-section a,
+        .drawer-section button {
+          padding: 14px 20px;
+          text-align: left;
+          background: none;
+          border: none;
+          font-size: 16px;
+          font-weight: 500;
+          color: ${textColor};
+          cursor: pointer;
+        }
+
+        .drawer-section a:hover,
+        .drawer-section button:hover {
+          background: rgba(139,94,60,0.15);
+        }
+
+        .drawer-section.danger button {
+          color: #e63946;
+        }
+
+        .drawer-section.danger button:hover {
+          background: rgba(230,57,70,0.15);
+        }
+
         @media (max-width: 768px) {
-          .hamburger {
-            display: block;
-          }
-          .nav-links {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: ${bgColor};
-            flex-direction: column;
-            align-items: flex-start;
-            padding: 20px;
-            display: ${mobileMenuOpen ? "flex" : "none"};
-          }
+          .nav-links { display: none; }
+          .hamburger { display: block; }
         }
       `}</style>
     </nav>
   );
 }
-
-/* ===== STYLES ===== */
-const logoStyle = {
-  width: "42px",
-  height: "42px",
-  borderRadius: "50%",
-  objectFit: "cover",
-};
-
-const navLink = (color) => ({
-  textDecoration: "none",
-  color,
-  fontWeight: 600,
-  padding: "6px 14px",
-  borderRadius: "6px",
-});
-
-const dropdownLink = (color) => ({
-  display: "block",
-  padding: "10px 16px",
-  textDecoration: "none",
-  color,
-  cursor: "pointer",
-});
